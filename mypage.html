@@ -1,0 +1,1865 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ナナオリ攻略DB｜マイページ</title>
+<style>
+:root{--bg:#0b0b0d;--panel:#151519;--line:rgba(255,255,255,.12);--gold:#f1d18a;--text:#f5f5f6}
+*{box-sizing:border-box}
+html{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
+body{margin:0;background:radial-gradient(circle at top,rgba(88,52,120,.18),transparent 32%),var(--bg)}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(11,11,13,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top strong{white-space:nowrap}
+.top a{margin-left:auto;color:var(--gold);text-decoration:none;font-weight:900}
+main{max-width:940px;margin:auto;padding:18px}
+.hero{padding:18px;border:1px solid rgba(241,209,138,.3);border-radius:18px;background:rgba(255,255,255,.035)}
+.hero h1{margin:0 0 8px;font-size:24px}
+.hero p{margin:0;line-height:1.65;opacity:.8}
+.panel{margin-top:16px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+.panel h2{margin:0 0 10px;font-size:19px}
+.pid-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#0e0e11;color:var(--text);font-size:16px}
+button,.btn{border:0;border-radius:10px;padding:12px 14px;font-weight:900;cursor:pointer;text-decoration:none;text-align:center}
+.primary{background:var(--gold);color:#16120b}
+.secondary{background:rgba(255,255,255,.08);color:var(--text)}
+.pid-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.note{font-size:12px;opacity:.68;line-height:1.55}
+.char-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.char-card{display:grid;grid-template-columns:86px 1fr;gap:12px;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035)}
+.char-card img{width:86px;height:86px;object-fit:cover;border-radius:11px;background:#000}
+.char-body{min-width:0}
+.char-body strong{display:block;font-size:17px;margin-bottom:8px}
+.char-body label{display:block;font-size:12px;opacity:.9}
+.char-body select{margin-top:4px;padding:9px}
+.char-actions{display:grid;grid-template-columns:auto 1fr;gap:6px;margin-top:7px}
+.char-actions button{padding:9px 10px;background:var(--gold);color:#16120b}
+.char-actions a{display:flex;align-items:center;justify-content:center;padding:9px 8px;border-radius:9px;background:rgba(255,255,255,.08);color:var(--text);text-decoration:none;font-size:12px;font-weight:800}
+.saved-badge{display:inline-block;margin-left:6px;font-size:11px;color:var(--gold)}
+@media(max-width:650px){.char-grid{grid-template-columns:1fr}.pid-actions{grid-template-columns:1fr}}
+</style>
+
+<style>
+.profile-card{margin-top:16px;padding:18px;border:1px solid rgba(241,209,138,.34);border-radius:18px;background:linear-gradient(135deg,rgba(241,209,138,.08),rgba(255,255,255,.025));display:grid;grid-template-columns:92px 1fr;gap:16px;align-items:center}
+.profile-avatar{width:92px;height:92px;border-radius:50%;object-fit:cover;background:#000;border:3px solid var(--gold);box-shadow:0 0 0 4px rgba(241,209,138,.08)}
+.profile-meta h2{margin:0 0 5px;font-size:21px}.profile-meta p{margin:2px 0;opacity:.75;font-size:13px}
+.avatar-picker{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.avatar-picker h3{margin:0 0 9px;font-size:15px}
+.avatar-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.avatar-choice{position:relative;border:2px solid transparent;border-radius:50%;padding:0;background:transparent;cursor:pointer;aspect-ratio:1}
+.avatar-choice img{width:100%;height:100%;display:block;border-radius:50%;object-fit:cover;background:#000}
+.avatar-choice.selected{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14)}
+.avatar-choice.selected:after{content:"✓";position:absolute;right:-2px;bottom:-2px;width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#16120b;font-size:12px;font-weight:900}
+.profile-change{margin-top:10px;font-size:12px;opacity:.7}
+@media(max-width:520px){.profile-card{grid-template-columns:76px 1fr}.profile-avatar{width:76px;height:76px}.avatar-grid{grid-template-columns:repeat(5,1fr);gap:6px}}
+</style>
+
+<style>
+.profile-card{
+  grid-template-columns:132px 1fr!important;
+  gap:20px!important;
+}
+.profile-avatar{
+  width:132px!important;
+  height:132px!important;
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.profile-avatar:active{transform:scale(.98)}
+.profile-avatar-wrap{position:relative;width:max-content}
+.profile-avatar-hint{
+  position:absolute;right:-6px;bottom:-6px;
+  width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--gold);color:#16120b;
+  font-size:17px;font-weight:900;
+  border:3px solid var(--panel);
+  pointer-events:none;
+}
+.avatar-picker{
+  display:none;
+  grid-column:1/-1;
+  margin-top:6px!important;
+  padding:16px!important;
+  border:1px solid rgba(241,209,138,.28)!important;
+  border-radius:14px;
+  background:rgba(0,0,0,.22);
+}
+.avatar-picker.open{display:block}
+.avatar-picker-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px
+}
+.avatar-picker-head h3{margin:0!important}
+.avatar-close{
+  border:0;border-radius:999px;padding:8px 12px;
+  background:rgba(255,255,255,.08);color:var(--text);
+  font-weight:800;cursor:pointer;
+}
+.profile-tap-note{font-size:12px;opacity:.68;margin-top:8px}
+@media(max-width:520px){
+  .profile-card{grid-template-columns:104px 1fr!important;gap:14px!important}
+  .profile-avatar{width:104px!important;height:104px!important}
+  .profile-avatar-hint{width:30px;height:30px;font-size:15px}
+}
+</style>
+
+<style>
+.profile-avatar-wrap{position:relative;z-index:2}
+#profile-avatar{
+  position:relative;
+  z-index:3;
+  pointer-events:auto!important;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+}
+.profile-avatar-hint{
+  z-index:4;
+  pointer-events:none!important;
+}
+</style>
+
+<style>
+.avatar-radio{position:absolute;opacity:0;pointer-events:none}
+.profile-card{
+  margin-top:16px;padding:18px;border:1px solid rgba(241,209,138,.34);border-radius:18px;
+  background:linear-gradient(135deg,rgba(241,209,138,.08),rgba(255,255,255,.025));
+  display:grid;grid-template-columns:150px 1fr;gap:22px;align-items:center
+}
+.avatar-details{width:150px}
+.profile-avatar-summary{position:relative;display:block;width:150px;height:150px;cursor:pointer;list-style:none}
+.profile-avatar-summary::-webkit-details-marker{display:none}
+.profile-avatar-stack{width:150px;height:150px;position:relative}
+.avatar-display{display:none;position:absolute;inset:0;width:150px;height:150px;border-radius:50%;object-fit:cover;background:#000;border:4px solid var(--gold);box-shadow:0 0 0 5px rgba(241,209,138,.08)}
+.profile-avatar-hint{position:absolute;right:-7px;bottom:-7px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#16120b;font-weight:900;border:3px solid #151519}
+.avatar-picker-native{position:absolute;z-index:50;left:18px;right:18px;margin-top:12px;padding:16px;border-radius:16px;background:#17171c;border:1px solid rgba(241,209,138,.35);box-shadow:0 18px 50px rgba(0,0,0,.6)}
+.avatar-picker-native h3{margin:0 0 4px}.avatar-picker-native p{font-size:12px;opacity:.72}
+.avatar-grid-native{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.avatar-label{display:flex;flex-direction:column;gap:5px;align-items:center;padding:5px;border:2px solid transparent;border-radius:13px;cursor:pointer}
+.avatar-label img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:50%;background:#000}
+.avatar-label span{font-size:10px;text-align:center}
+#avatar-char-derieri:checked ~ .profile-card .avatar-char-derieri{display:block!important;}#avatar-char-derieri:checked ~ .profile-card .avatar-label[for="avatar-char-derieri"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-gowther:checked ~ .profile-card .avatar-char-gowther{display:block!important;}#avatar-char-gowther:checked ~ .profile-card .avatar-label[for="avatar-char-gowther"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-elizabeth:checked ~ .profile-card .avatar-char-elizabeth{display:block!important;}#avatar-char-elizabeth:checked ~ .profile-card .avatar-label[for="avatar-char-elizabeth"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-merlin:checked ~ .profile-card .avatar-char-merlin{display:block!important;}#avatar-char-merlin:checked ~ .profile-card .avatar-label[for="avatar-char-merlin"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-daisy:checked ~ .profile-card .avatar-char-daisy{display:block!important;}#avatar-char-daisy:checked ~ .profile-card .avatar-label[for="avatar-char-daisy"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-meliodas:checked ~ .profile-card .avatar-char-meliodas{display:block!important;}#avatar-char-meliodas:checked ~ .profile-card .avatar-label[for="avatar-char-meliodas"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-diane:checked ~ .profile-card .avatar-char-diane{display:block!important;}#avatar-char-diane:checked ~ .profile-card .avatar-label[for="avatar-char-diane"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-drake:checked ~ .profile-card .avatar-char-drake{display:block!important;}#avatar-char-drake:checked ~ .profile-card .avatar-label[for="avatar-char-drake"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-elaine:checked ~ .profile-card .avatar-char-elaine{display:block!important;}#avatar-char-elaine:checked ~ .profile-card .avatar-label[for="avatar-char-elaine"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-guila:checked ~ .profile-card .avatar-char-guila{display:block!important;}#avatar-char-guila:checked ~ .profile-card .avatar-label[for="avatar-char-guila"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-jericho:checked ~ .profile-card .avatar-char-jericho{display:block!important;}#avatar-char-jericho:checked ~ .profile-card .avatar-label[for="avatar-char-jericho"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-king:checked ~ .profile-card .avatar-char-king{display:block!important;}#avatar-char-king:checked ~ .profile-card .avatar-label[for="avatar-char-king"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-mannie:checked ~ .profile-card .avatar-char-mannie{display:block!important;}#avatar-char-mannie:checked ~ .profile-card .avatar-label[for="avatar-char-mannie"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-escanor:checked ~ .profile-card .avatar-char-escanor{display:block!important;}#avatar-char-escanor:checked ~ .profile-card .avatar-label[for="avatar-char-escanor"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}#avatar-char-cloto:checked ~ .profile-card .avatar-char-cloto{display:block!important;}#avatar-char-cloto:checked ~ .profile-card .avatar-label[for="avatar-char-cloto"]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(241,209,138,.14);}
+@media(max-width:520px){
+ .profile-card{grid-template-columns:118px 1fr;gap:15px}
+ .avatar-details,.profile-avatar-summary,.profile-avatar-stack{width:118px;height:118px}
+ .avatar-display{width:118px;height:118px}
+ .avatar-grid-native{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+}
+</style>
+
+<style>
+/* v1.4: アイコン選択画面を大型化 */
+.avatar-picker-native{
+  left:10px!important;
+  right:10px!important;
+  padding:20px!important;
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.avatar-picker-native h3{
+  font-size:20px!important;
+  margin-bottom:6px!important;
+}
+.avatar-picker-native > p{
+  font-size:14px!important;
+}
+.avatar-grid-native{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+}
+.avatar-label{
+  padding:8px!important;
+  gap:8px!important;
+  border-radius:16px!important;
+}
+.avatar-label img{
+  width:100%!important;
+  max-width:145px;
+  aspect-ratio:1;
+}
+.avatar-label span{
+  font-size:13px!important;
+  font-weight:800;
+}
+@media(max-width:520px){
+  .avatar-picker-native{
+    left:6px!important;
+    right:6px!important;
+    padding:14px!important;
+  }
+  .avatar-grid-native{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:10px!important;
+  }
+  .avatar-label{
+    padding:6px!important;
+  }
+  .avatar-label span{
+    font-size:12px!important;
+  }
+}
+</style>
+
+<style>
+.engraving-owned-panel{scroll-margin-top:74px}
+.engraving-owned-summary{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 12px}
+.engraving-owned-summary span{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.06);font-size:13px}
+.engraving-owned-details>summary{cursor:pointer;padding:12px 14px;border-radius:11px;background:rgba(241,209,138,.10);font-weight:900;color:var(--gold)}
+.engraving-owned-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.owned-engraving{position:relative;display:grid;grid-template-columns:26px 48px minmax(0,1fr) auto;align-items:center;gap:8px;padding:9px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.025);cursor:pointer}
+.owned-check{position:absolute;opacity:0;pointer-events:none}
+.owned-mark{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.22);font-weight:900;color:transparent;background:#101014}
+.owned-check:checked + .owned-mark{background:var(--gold);color:#16120b;border-color:var(--gold)}
+.owned-engraving:has(.owned-check:checked){border-color:rgba(241,209,138,.55);background:rgba(241,209,138,.07)}
+.owned-engraving img,.engraving-noimg{width:46px;height:46px;border-radius:9px;object-fit:cover;background:#000}
+.engraving-noimg{display:grid;place-items:center;color:var(--gold);font-weight:900}
+.engraving-name{font-size:12px;font-weight:800;line-height:1.35}
+.engraving-detail-link{padding:7px 8px;border-radius:8px;background:rgba(255,255,255,.07);color:var(--text);text-decoration:none;font-size:11px;font-weight:800}
+@media(max-width:650px){.engraving-owned-grid{grid-template-columns:1fr}}
+</style>
+
+<style>
+/* v1.8: キャラ凸数の直下に刻印所持管理を配置 */
+.engraving-owned-panel{
+  margin-top:10px!important;
+  border-top-left-radius:12px!important;
+  border-top-right-radius:12px!important;
+}
+</style>
+
+<style>
+/* v1.9: 刻印所持を各キャラの凸数カード内に統合 */
+.char-card{
+  grid-template-columns:86px minmax(0,1fr)!important;
+}
+.char-engraving-row{
+  grid-column:1/-1;
+  margin-top:2px;
+  padding-top:9px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.char-engraving-title{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:7px;
+  font-size:12px;
+  font-weight:900;
+  color:var(--gold);
+}
+.char-engraving-note{
+  color:var(--text);
+  opacity:.55;
+  font-size:10px;
+  font-weight:600;
+}
+.char-engraving-pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.char-engraving-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-height:32px;
+  padding:5px 7px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.035);
+  cursor:pointer;
+  font-size:11px;
+  line-height:1.25;
+}
+.char-engraving-pill input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+.pill-check{
+  flex:0 0 auto;
+  width:20px;
+  height:20px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:6px;
+  color:transparent;
+  background:#0f0f12;
+  font-weight:900;
+}
+.char-engraving-pill:has(input:checked){
+  border-color:rgba(241,209,138,.58);
+  background:rgba(241,209,138,.08);
+}
+.char-engraving-pill input:checked + .pill-check{
+  color:#16120b;
+  background:var(--gold);
+  border-color:var(--gold);
+}
+.pill-name{font-weight:750}
+.mini-engr-detail{
+  margin-left:2px;
+  color:var(--gold);
+  text-decoration:none;
+  font-size:10px;
+  font-weight:900;
+}
+</style>
+
+<style>
+/* v1.9.1 iPhone横はみ出し修正 */
+html,body{width:100%;max-width:100%;overflow-x:hidden!important}
+main{width:100%;max-width:940px;overflow-x:hidden}
+.panel,.profile-card,.char-grid,.char-card,.char-body,.char-engraving-row,.char-engraving-pills{
+  min-width:0!important;
+  max-width:100%!important;
+}
+.char-card{
+  width:100%!important;
+  overflow:hidden!important;
+}
+.char-body{overflow:hidden}
+.char-actions{
+  grid-template-columns:minmax(0,auto) minmax(0,1fr)!important;
+  width:100%;
+}
+.char-actions a{
+  min-width:0;
+  white-space:normal!important;
+  overflow-wrap:anywhere;
+}
+.char-engraving-pills{
+  width:100%;
+  overflow:hidden;
+}
+.char-engraving-pill{
+  min-width:0!important;
+  max-width:100%!important;
+}
+.pill-name{
+  min-width:0;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.mini-engr-detail{flex:0 0 auto}
+.pid-row,.pid-actions{max-width:100%}
+input,select{min-width:0!important}
+@media(max-width:520px){
+  main{padding-left:12px!important;padding-right:12px!important}
+  .char-card{grid-template-columns:76px minmax(0,1fr)!important}
+  .char-card>img{width:76px!important;height:76px!important}
+  .char-actions{grid-template-columns:1fr!important}
+  .char-engraving-pill{width:100%}
+}
+</style>
+
+<style>
+/* v2.0 hybrid redesign */
+:root{
+  --hyb-panel:rgba(23,21,31,.96);
+  --hyb-panel2:rgba(18,18,24,.98);
+  --hyb-line:rgba(241,209,138,.22);
+  --hyb-purple:#a878ff;
+  --hyb-gold:#f1d18a;
+}
+html,body{
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:hidden!important;
+}
+body{
+  background:
+    radial-gradient(circle at 50% -8%,rgba(98,55,146,.22),transparent 35%),
+    #0a0a0d!important;
+}
+main{
+  width:100%!important;
+  max-width:760px!important;
+  margin:0 auto!important;
+  padding:14px 12px 34px!important;
+  overflow-x:hidden!important;
+}
+.top{
+  padding:12px 14px!important;
+  gap:10px!important;
+}
+.top strong{
+  font-size:18px!important;
+}
+.hero{
+  margin-top:10px!important;
+  padding:20px 18px!important;
+  border-color:rgba(241,209,138,.36)!important;
+  background:
+    radial-gradient(circle at 15% 25%,rgba(168,120,255,.16),transparent 28%),
+    linear-gradient(135deg,rgba(47,31,67,.75),rgba(20,18,28,.96))!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.24);
+}
+.hero h1{
+  text-align:center;
+  font-size:28px!important;
+  margin-bottom:12px!important;
+}
+.hero p{
+  text-align:center;
+  font-size:15px!important;
+  line-height:1.8!important;
+}
+.profile-card{
+  margin-top:14px!important;
+  padding:16px!important;
+  grid-template-columns:118px minmax(0,1fr)!important;
+  gap:16px!important;
+  border-color:rgba(241,209,138,.38)!important;
+  background:
+    radial-gradient(circle at 10% 35%,rgba(168,120,255,.13),transparent 35%),
+    linear-gradient(135deg,rgba(28,23,37,.98),rgba(18,18,23,.98))!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.26);
+}
+.avatar-details,.profile-avatar-summary,.profile-avatar-stack{
+  width:112px!important;
+  height:112px!important;
+}
+.avatar-display{
+  width:112px!important;
+  height:112px!important;
+  border-width:3px!important;
+}
+.profile-meta h2{
+  font-size:21px!important;
+  line-height:1.25!important;
+}
+.profile-meta p{
+  line-height:1.55!important;
+}
+.panel{
+  margin-top:12px!important;
+  padding:15px!important;
+  border-color:rgba(255,255,255,.10)!important;
+  background:linear-gradient(180deg,rgba(23,23,29,.98),rgba(15,15,20,.98))!important;
+  box-shadow:0 9px 24px rgba(0,0,0,.20);
+}
+.panel h2{
+  font-size:20px!important;
+}
+.pid-row{
+  grid-template-columns:minmax(0,1fr) 90px!important;
+}
+.pid-row input{
+  font-size:16px!important;
+  min-width:0!important;
+}
+.pid-row button{
+  width:90px!important;
+}
+.pid-actions{
+  grid-template-columns:1fr 1fr!important;
+}
+.quick-menu{
+  margin-top:12px;
+  padding:15px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(23,23,29,.98),rgba(15,15,20,.98));
+}
+.quick-menu h2{
+  margin:0 0 12px;
+  font-size:20px;
+}
+.quick-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+.quick-link{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  min-height:56px;
+  padding:13px 14px;
+  border-radius:13px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:900;
+  font-size:14px;
+  border:1px solid rgba(255,255,255,.10);
+}
+.quick-link span:last-child{
+  font-size:18px;
+  opacity:.85;
+}
+.quick-blue{
+  background:linear-gradient(135deg,rgba(35,90,170,.78),rgba(20,50,105,.88));
+  box-shadow:inset 0 0 22px rgba(71,155,255,.14);
+}
+.quick-purple{
+  background:linear-gradient(135deg,rgba(102,53,166,.82),rgba(55,27,102,.92));
+  box-shadow:inset 0 0 22px rgba(168,120,255,.16);
+}
+.quick-gold{
+  background:linear-gradient(135deg,rgba(158,106,20,.78),rgba(90,57,14,.92));
+  box-shadow:inset 0 0 22px rgba(241,209,138,.14);
+}
+.quick-green{
+  background:linear-gradient(135deg,rgba(20,132,82,.76),rgba(12,78,50,.92));
+  box-shadow:inset 0 0 22px rgba(80,220,150,.14);
+}
+
+/* Character roster inspired by the first mockup, but kept one-column on iPhone */
+.char-grid{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:10px!important;
+}
+.char-card{
+  width:100%!important;
+  grid-template-columns:76px minmax(0,1fr)!important;
+  gap:11px!important;
+  padding:11px!important;
+  border-radius:14px!important;
+  background:linear-gradient(135deg,rgba(27,27,33,.96),rgba(17,17,22,.98))!important;
+  border-color:rgba(255,255,255,.10)!important;
+  overflow:hidden!important;
+}
+.char-card>img{
+  width:76px!important;
+  height:76px!important;
+  border-radius:50%!important;
+  border:2px solid rgba(241,209,138,.34);
+}
+.char-body strong{
+  font-size:17px!important;
+  margin-bottom:6px!important;
+}
+.char-body label{
+  font-size:12px!important;
+}
+.char-body select{
+  margin-top:4px!important;
+  padding:9px 10px!important;
+}
+.char-actions{
+  display:grid!important;
+  grid-template-columns:82px minmax(0,1fr)!important;
+  gap:7px!important;
+}
+.char-actions a{
+  font-size:12px!important;
+  min-width:0!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere!important;
+}
+.char-engraving-row{
+  margin-top:8px!important;
+}
+.char-engraving-pills{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:6px!important;
+}
+.char-engraving-pill{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  display:grid!important;
+  grid-template-columns:22px minmax(0,1fr) auto!important;
+  gap:6px!important;
+}
+.pill-name{
+  min-width:0!important;
+  overflow-wrap:anywhere!important;
+}
+.avatar-picker-native{
+  left:10px!important;
+  right:10px!important;
+  max-width:720px!important;
+}
+@media(min-width:700px){
+  main{padding-left:18px!important;padding-right:18px!important}
+  .char-grid{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:520px){
+  .top{
+    padding:10px 12px!important;
+  }
+  .top strong{
+    font-size:16px!important;
+  }
+  .top a{
+    font-size:13px!important;
+  }
+  .hero h1{font-size:25px!important}
+  .profile-card{
+    grid-template-columns:104px minmax(0,1fr)!important;
+    gap:12px!important;
+  }
+  .avatar-details,.profile-avatar-summary,.profile-avatar-stack{
+    width:100px!important;height:100px!important;
+  }
+  .avatar-display{width:100px!important;height:100px!important}
+  .profile-meta h2{font-size:19px!important}
+  .profile-meta p{font-size:13px!important}
+  .pid-actions{grid-template-columns:1fr!important}
+  .quick-grid{grid-template-columns:1fr 1fr!important}
+  .quick-link{font-size:13px!important;padding:12px!important}
+  .char-actions{grid-template-columns:1fr!important}
+}
+</style>
+
+<style>
+/* v2.1 所持キャラを3列アイコン表示 + タップで編集 */
+.roster-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:12px;
+}
+.roster-tile{
+  min-width:0;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  padding:10px 6px 9px;
+  background:linear-gradient(180deg,rgba(30,30,37,.97),rgba(18,18,24,.99));
+  color:var(--text);
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+}
+.roster-tile img{
+  width:72px;
+  height:72px;
+  max-width:100%;
+  border-radius:50%;
+  object-fit:cover;
+  background:#000;
+  border:2px solid rgba(241,209,138,.32);
+}
+.roster-tile span{
+  width:100%;
+  font-size:12px;
+  line-height:1.25;
+  font-weight:900;
+  text-align:center;
+  overflow-wrap:anywhere;
+}
+.roster-tile.active{
+  border-color:rgba(241,209,138,.72);
+  box-shadow:0 0 0 2px rgba(241,209,138,.10);
+  background:linear-gradient(180deg,rgba(58,45,31,.92),rgba(22,20,19,.99));
+}
+.char-drawer-area{
+  margin-top:12px;
+}
+.char-detail-drawer{
+  display:none;
+  width:100%;
+  max-width:100%;
+  border:1px solid rgba(241,209,138,.30);
+  border-radius:16px;
+  padding:13px;
+  background:linear-gradient(180deg,rgba(27,24,34,.98),rgba(15,15,20,.99));
+  overflow:hidden;
+}
+.char-detail-drawer.open{display:block}
+.drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding-bottom:10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.drawer-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.drawer-title img{
+  width:58px;
+  height:58px;
+  flex:0 0 58px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid rgba(241,209,138,.38);
+}
+.drawer-title strong{
+  display:block;
+  font-size:18px;
+  line-height:1.25;
+}
+.drawer-title span{
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+  opacity:.62;
+}
+.drawer-close{
+  flex:0 0 auto;
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  color:var(--text);
+  font-size:22px;
+  line-height:1;
+  cursor:pointer;
+}
+.drawer-body{
+  min-width:0;
+  padding-top:10px;
+}
+.drawer-body .char-body{
+  min-width:0;
+}
+.drawer-body .char-actions{
+  grid-template-columns:84px minmax(0,1fr)!important;
+}
+.drawer-body .char-engraving-row{
+  margin-top:10px!important;
+  padding-top:10px!important;
+}
+.drawer-body .char-engraving-pills{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+}
+@media(max-width:420px){
+  .roster-grid{gap:8px}
+  .roster-tile{padding:8px 4px}
+  .roster-tile img{width:66px;height:66px}
+  .roster-tile span{font-size:11px}
+  .drawer-body .char-actions{grid-template-columns:1fr!important}
+}
+</style>
+
+<style>
+/* v2.2: JSなしでも確実にタップできる <details> 方式 */
+.roster-native-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:12px;
+}
+.roster-native{
+  min-width:0;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(30,30,37,.97),rgba(18,18,24,.99));
+  overflow:hidden;
+}
+.roster-native[open]{
+  grid-column:1/-1;
+  border-color:rgba(241,209,138,.56);
+  box-shadow:0 0 0 2px rgba(241,209,138,.08);
+}
+.roster-summary{
+  list-style:none;
+  cursor:pointer;
+  padding:10px 6px 9px;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+  -webkit-tap-highlight-color:rgba(241,209,138,.12);
+  touch-action:manipulation;
+}
+.roster-summary::-webkit-details-marker{display:none}
+.roster-summary::marker{display:none}
+.roster-summary img{
+  width:72px;
+  height:72px;
+  max-width:100%;
+  border-radius:50%;
+  object-fit:cover;
+  background:#000;
+  border:2px solid rgba(241,209,138,.32);
+}
+.roster-summary span{
+  width:100%;
+  font-size:12px;
+  line-height:1.25;
+  font-weight:900;
+  text-align:center;
+  overflow-wrap:anywhere;
+}
+.roster-native[open] .roster-summary{
+  display:none;
+}
+.roster-expanded{
+  padding:13px;
+  width:100%;
+  max-width:100%;
+  overflow:hidden;
+  background:linear-gradient(180deg,rgba(27,24,34,.98),rgba(15,15,20,.99));
+}
+.roster-expanded .drawer-head{
+  padding-bottom:10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.roster-expanded .drawer-body{
+  padding-top:10px;
+  min-width:0;
+}
+.roster-expanded .char-actions{
+  grid-template-columns:84px minmax(0,1fr)!important;
+}
+.roster-expanded .char-engraving-pills{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+}
+@media(max-width:420px){
+  .roster-native-grid{gap:8px}
+  .roster-summary{padding:8px 4px}
+  .roster-summary img{width:66px;height:66px}
+  .roster-summary span{font-size:11px}
+  .roster-expanded .char-actions{grid-template-columns:1fr!important}
+}
+</style>
+
+<style>
+/* v2.2.1: 開いたあとも同じキャラを再タップして閉じられるように修正 */
+.roster-native[open] .roster-summary{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  padding:10px 12px!important;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(241,209,138,.06);
+}
+.roster-native[open] .roster-summary img{
+  width:48px!important;
+  height:48px!important;
+  flex:0 0 48px;
+}
+.roster-native[open] .roster-summary span{
+  width:auto!important;
+  flex:1 1 auto;
+  text-align:left!important;
+  font-size:14px!important;
+}
+.roster-native[open] .roster-summary::after{
+  content:"▲ 閉じる";
+  flex:0 0 auto;
+  color:var(--gold);
+  font-size:11px;
+  font-weight:900;
+}
+.roster-native:not([open]) .roster-summary::after{
+  content:"";
+}
+</style>
+
+<style>
+/* v2.2.2: プロフィールアイコン 2タップ確定 */
+.avatar-label{
+  -webkit-tap-highlight-color:rgba(241,209,138,.12);
+  touch-action:manipulation;
+}
+.profile-change{
+  min-height:18px;
+}
+</style>
+
+<style>
+.avatar-confirm-fallback{
+  display:block;
+  width:100%;
+  margin-top:10px;
+  padding:12px 14px;
+  border:0;
+  border-radius:10px;
+  background:var(--gold);
+  color:#16120b;
+  font-weight:900;
+  cursor:pointer;
+}
+</style>
+
+<style>
+/* v2.2.4: プロフィールアイコン選択をネイティブ操作中心に */
+.avatar-confirm-fallback{display:none!important}
+#avatar-details[open] > .profile-avatar-summary::after{
+  content:"▲ 選択を閉じる";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:-28px;
+  white-space:nowrap;
+  color:var(--gold);
+  font-size:11px;
+  font-weight:900;
+}
+#avatar-details[open] .avatar-picker-native{
+  margin-top:36px!important;
+}
+</style>
+
+<style>
+/* v2.2.5 プロフィールアイコン選択UI調整 */
+#profile-avatar-status:empty{display:none!important}
+
+#avatar-details[open] > .profile-avatar-summary::after{
+  content:"▲ 選択を閉じる"!important;
+  bottom:-36px!important;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(241,209,138,.12);
+  border:1px solid rgba(241,209,138,.30);
+  font-size:14px!important;
+  line-height:1.2;
+  letter-spacing:.02em;
+}
+
+#avatar-details[open] .avatar-picker-native{
+  margin-top:48px!important;
+}
+</style>
+
+<style>
+/* v2.2.6 マイプロフィール内にプレイヤーID入力 */
+.profile-id-box{
+  margin-top:9px;
+  width:100%;
+}
+.profile-id-box label{
+  display:block;
+  margin-bottom:5px;
+  color:var(--gold);
+  font-size:12px;
+  font-weight:900;
+}
+.profile-id-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 64px;
+  gap:6px;
+  width:100%;
+}
+.profile-id-row input{
+  width:100%;
+  min-width:0;
+  padding:10px 9px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:9px;
+  background:#0f0f13;
+  color:var(--text);
+  font-size:14px;
+}
+.profile-id-row button{
+  border:0;
+  border-radius:9px;
+  background:var(--gold);
+  color:#16120b;
+  font-weight:900;
+  cursor:pointer;
+}
+.profile-id-status{
+  min-height:15px;
+  margin-top:4px;
+  font-size:10px;
+  opacity:.72;
+}
+@media(max-width:420px){
+  .profile-id-row{grid-template-columns:minmax(0,1fr) 58px}
+  .profile-id-row input{font-size:13px}
+}
+</style>
+
+<style>
+.username-box{width:100%;margin-bottom:8px}
+.username-box label{
+  display:block;margin-bottom:5px;color:var(--gold);
+  font-size:12px;font-weight:900;
+}
+.username-box input{
+  width:100%;min-width:0;padding:10px 9px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:9px;background:#0f0f13;color:var(--text);
+  font-size:16px;font-weight:800;
+}
+.profile-username-status{
+  min-height:12px;margin-top:3px;font-size:10px;opacity:.7;
+}
+</style>
+
+<style>
+/* v2.3 コンプリート率 */
+.completion-panel{
+  margin-top:12px;
+  padding:16px;
+  border:1px solid rgba(241,209,138,.36);
+  border-radius:17px;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(241,209,138,.13),transparent 34%),
+    linear-gradient(135deg,rgba(40,31,48,.98),rgba(17,17,22,.99));
+  box-shadow:0 12px 30px rgba(0,0,0,.22);
+}
+.completion-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+}
+.completion-kicker{
+  display:block;
+  margin-bottom:3px;
+  color:var(--gold);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+.completion-head h2{
+  margin:0;
+  font-size:21px;
+}
+#completion-total{
+  color:var(--gold);
+  font-size:31px;
+  line-height:1;
+}
+.completion-bar{
+  height:14px;
+  margin-top:13px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.08);
+}
+#completion-bar-fill{
+  display:block;
+  width:0%;
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#8c63e8,#f1d18a);
+  transition:width .25s ease;
+}
+.completion-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+.completion-stats div{
+  padding:9px 10px;
+  border-radius:11px;
+  background:rgba(255,255,255,.045);
+}
+.completion-stats span{
+  display:block;
+  margin-bottom:2px;
+  font-size:10px;
+  opacity:.62;
+}
+.completion-stats strong{
+  font-size:15px;
+}
+.completion-perfect{
+  display:none;
+  margin-top:11px;
+  padding:10px;
+  text-align:center;
+  border:1px solid rgba(241,209,138,.55);
+  border-radius:11px;
+  color:var(--gold);
+  background:rgba(241,209,138,.08);
+  font-size:15px;
+  font-weight:1000;
+  letter-spacing:.04em;
+}
+.completion-panel.perfect .completion-perfect{display:block}
+.completion-panel.perfect #completion-total{text-shadow:0 0 18px rgba(241,209,138,.55)}
+</style>
+
+<style>
+/* v2.3.1 イントロ削除後の余白調整 */
+.profile-card{margin-top:10px!important}
+main{padding-top:10px!important}
+</style>
+
+<style>
+/* v2.3.2 IDと公式クーポン導線をひとまとめ */
+.profile-coupon-link{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  width:100%;
+  margin-top:8px;
+  padding:10px 9px;
+  border:1px solid rgba(241,209,138,.30);
+  border-radius:9px;
+  background:rgba(241,209,138,.08);
+  color:var(--gold);
+  text-decoration:none;
+  font-size:12px;
+  font-weight:900;
+}
+.profile-coupon-link span{font-size:14px}
+</style>
+
+<style>
+.profile-coupon-list{
+  margin-top:6px;
+  background:rgba(168,120,255,.08);
+  border-color:rgba(168,120,255,.28);
+  color:#d7c3ff;
+}
+</style>
+
+<style>
+/* v2.3.4: 旧デリエリ入力欄の残骸を非表示 */
+</style>
+
+<style>
+/* v2.3.6 キャラ攻略詳細リンクのタップ領域を明示 */
+.character-detail-button{
+  position:relative!important;
+  z-index:20!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  -webkit-tap-highlight-color:rgba(241,209,138,.18);
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:48px!important;
+  width:100%!important;
+  padding:12px 14px!important;
+  border-radius:10px!important;
+  background:rgba(255,255,255,.08)!important;
+  color:var(--text)!important;
+  text-decoration:none!important;
+  font-size:13px!important;
+  font-weight:900!important;
+}
+.drawer-body,.char-actions{
+  position:relative!important;
+  z-index:5!important;
+  overflow:visible!important;
+}
+</style>
+
+<style>
+/* v2.3.7: ローカルHTMLプレビュー向け攻略詳細リンク修正 */
+.character-detail-button{
+  position:static!important;
+  z-index:auto!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+}
+.char-actions{
+  position:static!important;
+  z-index:auto!important;
+  overflow:visible!important;
+}
+.char-actions a{
+  pointer-events:auto!important;
+}
+</style>
+</head>
+<body>
+<header class="top"><strong>👤 ナナオリ マイページ</strong><a href="index.html">攻略DBへ戻る →</a></header>
+<main>
+
+<input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-derieri" value="char-derieri" checked><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-gowther" value="char-gowther" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-elizabeth" value="char-elizabeth" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-merlin" value="char-merlin" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-daisy" value="char-daisy" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-meliodas" value="char-meliodas" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-diane" value="char-diane" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-drake" value="char-drake" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-elaine" value="char-elaine" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-guila" value="char-guila" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-jericho" value="char-jericho" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-king" value="char-king" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-mannie" value="char-mannie" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-escanor" value="char-escanor" ><input class="avatar-radio" type="radio" name="profile-avatar" id="avatar-char-cloto" value="char-cloto" >
+<section class="profile-card">
+  <details class="avatar-details" id="avatar-details">
+    <summary class="profile-avatar-summary" aria-label="プロフィールアイコンを変更">
+      <div class="profile-avatar-stack"><img class="avatar-display avatar-char-derieri" src="mypage_751a6e3fb16114.webp" alt="デリエリ"><img class="avatar-display avatar-char-gowther" src="mypage_7bb70a1a14aece.webp" alt="ゴウセル"><img class="avatar-display avatar-char-elizabeth" src="mypage_0a4830f88aedc4.webp" alt="エリザベス"><img class="avatar-display avatar-char-merlin" src="mypage_c04a9f073e60c0.webp" alt="マーリン"><img class="avatar-display avatar-char-daisy" src="mypage_61e542693ae484.webp" alt="デイジー"><img class="avatar-display avatar-char-meliodas" src="mypage_1e454c71e3a1b6.webp" alt="メリオダス"><img class="avatar-display avatar-char-diane" src="mypage_e90ae7c88521e2.webp" alt="ディアンヌ"><img class="avatar-display avatar-char-drake" src="mypage_d46d7226dde77c.webp" alt="ドレイク"><img class="avatar-display avatar-char-elaine" src="mypage_aac7ead230ede0.webp" alt="エレイン"><img class="avatar-display avatar-char-guila" src="mypage_517d1c5076e8d3.webp" alt="ギーラ"><img class="avatar-display avatar-char-jericho" src="mypage_530a7699596371.webp" alt="ジェリコ"><img class="avatar-display avatar-char-king" src="mypage_d669c4a2ca51aa.webp" alt="キング"><img class="avatar-display avatar-char-mannie" src="mypage_137f54b66a0ed1.webp" alt="マニー"><img class="avatar-display avatar-char-escanor" src="mypage_d550f4a543e800.webp" alt="エスカノール"><img class="avatar-display avatar-char-cloto" src="mypage_d1a1d33df28e83.webp" alt="クロト"></div>
+      <span class="profile-avatar-hint">✎</span>
+    </summary>
+    <div class="avatar-picker-native">
+      <h3>プロフィールアイコンを選ぶ</h3>
+      <p>好きなキャラクターをタップしてください。</p>
+      <div class="avatar-grid-native"><label class="avatar-label" for="avatar-char-derieri" data-avatar="char-derieri" data-name="デリエリ"><img src="mypage_751a6e3fb16114.webp" alt="デリエリ"><span>デリエリ</span></label><label class="avatar-label" for="avatar-char-gowther" data-avatar="char-gowther" data-name="ゴウセル"><img src="mypage_7bb70a1a14aece.webp" alt="ゴウセル"><span>ゴウセル</span></label><label class="avatar-label" for="avatar-char-elizabeth" data-avatar="char-elizabeth" data-name="エリザベス"><img src="mypage_0a4830f88aedc4.webp" alt="エリザベス"><span>エリザベス</span></label><label class="avatar-label" for="avatar-char-merlin" data-avatar="char-merlin" data-name="マーリン"><img src="mypage_c04a9f073e60c0.webp" alt="マーリン"><span>マーリン</span></label><label class="avatar-label" for="avatar-char-daisy" data-avatar="char-daisy" data-name="デイジー"><img src="mypage_61e542693ae484.webp" alt="デイジー"><span>デイジー</span></label><label class="avatar-label" for="avatar-char-meliodas" data-avatar="char-meliodas" data-name="メリオダス"><img src="mypage_1e454c71e3a1b6.webp" alt="メリオダス"><span>メリオダス</span></label><label class="avatar-label" for="avatar-char-diane" data-avatar="char-diane" data-name="ディアンヌ"><img src="mypage_e90ae7c88521e2.webp" alt="ディアンヌ"><span>ディアンヌ</span></label><label class="avatar-label" for="avatar-char-drake" data-avatar="char-drake" data-name="ドレイク"><img src="mypage_d46d7226dde77c.webp" alt="ドレイク"><span>ドレイク</span></label><label class="avatar-label" for="avatar-char-elaine" data-avatar="char-elaine" data-name="エレイン"><img src="mypage_aac7ead230ede0.webp" alt="エレイン"><span>エレイン</span></label><label class="avatar-label" for="avatar-char-guila" data-avatar="char-guila" data-name="ギーラ"><img src="mypage_517d1c5076e8d3.webp" alt="ギーラ"><span>ギーラ</span></label><label class="avatar-label" for="avatar-char-jericho" data-avatar="char-jericho" data-name="ジェリコ"><img src="mypage_530a7699596371.webp" alt="ジェリコ"><span>ジェリコ</span></label><label class="avatar-label" for="avatar-char-king" data-avatar="char-king" data-name="キング"><img src="mypage_d669c4a2ca51aa.webp" alt="キング"><span>キング</span></label><label class="avatar-label" for="avatar-char-mannie" data-avatar="char-mannie" data-name="マニー"><img src="mypage_137f54b66a0ed1.webp" alt="マニー"><span>マニー</span></label><label class="avatar-label" for="avatar-char-escanor" data-avatar="char-escanor" data-name="エスカノール"><img src="mypage_d550f4a543e800.webp" alt="エスカノール"><span>エスカノール</span></label><label class="avatar-label" for="avatar-char-cloto" data-avatar="char-cloto" data-name="クロト"><img src="mypage_d1a1d33df28e83.webp" alt="クロト"><span>クロト</span></label></div>
+      <p class="profile-change" id="profile-avatar-status"></p>
+    
+    </div>
+  </details>
+  <div class="profile-meta">
+    
+<div class="username-box">
+  <label for="profile-username">ユーザーネーム</label>
+  <input id="profile-username" type="text" autocomplete="nickname" maxlength="24" placeholder="ユーザーネームを入力">
+  <div id="profile-username-status" class="profile-username-status"></div>
+</div>
+
+<div class="profile-id-box">
+  <label for="profile-player-id">自分のID</label>
+  <div class="profile-id-row">
+    <input id="profile-player-id" type="text" inputmode="numeric" autocomplete="off" placeholder="IDを入力">
+    <button type="button" id="profile-id-save">保存</button>
+  </div>
+  <div id="profile-id-status" class="profile-id-status"></div>
+</div>
+<a class="profile-coupon-link" href="https://coupon.netmarble.com/7dsorigin" target="_blank" rel="noopener">
+  🎟️ 公式クーポン入力ページ <span>↗</span>
+</a>
+<a class="profile-coupon-link profile-coupon-list" href="https://gamewith.jp/7origin/549223" target="_blank" rel="noopener">
+  📋 クーポンコード一覧 <span>↗</span>
+</a>
+
+
+
+    
+    
+  </div>
+</section>
+<section class="completion-panel" id="completion">
+  <div class="completion-head">
+    <div>
+      <span class="completion-kicker">🏆 PERFECT PROGRESS</span>
+      <h2>コンプリート率</h2>
+    </div>
+    <strong id="completion-total">0%</strong>
+  </div>
+  <div class="completion-bar"><span id="completion-bar-fill"></span></div>
+  <div class="completion-stats">
+    <div><span>全刻印</span><strong id="completion-owned">0 / 0</strong></div>
+    <div><span>未所持</span><strong id="completion-missing">0</strong></div>
+  </div>
+  <div id="completion-perfect" class="completion-perfect">✨ PERFECT COMPLETE ✨</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<section class="quick-menu">
+  <h2>⚡ クイックメニュー</h2>
+  <div class="quick-grid">
+    <a class="quick-link quick-blue" href="#character-management"><span>👥 キャラ育成</span><span>›</span></a>
+    <a class="quick-link quick-purple" href="nanao_strategy_official_2026-08-21_v1.1.1.html#engraved"><span>⚔️ 刻印装備</span><span>›</span></a>
+    <a class="quick-link quick-gold" href="#character-management"><span>🪬 所持刻印</span><span>›</span></a>
+    <a class="quick-link quick-green" href="index.html"><span>📖 攻略DB</span><span>›</span></a>
+  </div>
+</section>
+
+<section class="panel" id="character-management">
+<h2>⭐ 所持キャラ・凸数</h2>
+<p class="note">各キャラの凸数と、そのキャラの所持刻印装備をまとめて管理できます。✓が付いていない刻印は未所持扱いです。</p>
+
+<div class="roster-native-grid">
+
+    <details class="roster-native" data-char="char-derieri" data-char="char-derieri" data-default-limit="7">
+      <summary class="roster-summary">
+        <img src="mypage_751a6e3fb16114.webp" alt="デリエリ">
+        <span>デリエリ</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_751a6e3fb16114.webp" alt="デリエリ">
+            <div><strong>デリエリ</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>デリエリ</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-derieri">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-gowther" data-char="char-gowther" data-default-limit="5">
+      <summary class="roster-summary">
+        <img src="mypage_7bb70a1a14aece.webp" alt="ゴウセル">
+        <span>ゴウセル</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_7bb70a1a14aece.webp" alt="ゴウセル">
+            <div><strong>ゴウセル</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>ゴウセル</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-gowther">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-elizabeth" data-char="char-elizabeth" data-default-limit="6">
+      <summary class="roster-summary">
+        <img src="mypage_0a4830f88aedc4.webp" alt="エリザベス">
+        <span>エリザベス</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_0a4830f88aedc4.webp" alt="エリザベス">
+            <div><strong>エリザベス</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>エリザベス</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-elizabeth">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-merlin" data-char="char-merlin" data-default-limit="10">
+      <summary class="roster-summary">
+        <img src="mypage_c04a9f073e60c0.webp" alt="マーリン">
+        <span>マーリン</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_c04a9f073e60c0.webp" alt="マーリン">
+            <div><strong>マーリン</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>マーリン</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-merlin">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-daisy" data-char="char-daisy" data-default-limit="6">
+      <summary class="roster-summary">
+        <img src="mypage_61e542693ae484.webp" alt="デイジー">
+        <span>デイジー</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_61e542693ae484.webp" alt="デイジー">
+            <div><strong>デイジー</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>デイジー</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-daisy">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-meliodas" data-char="char-meliodas" data-default-limit="7">
+      <summary class="roster-summary">
+        <img src="mypage_1e454c71e3a1b6.webp" alt="メリオダス">
+        <span>メリオダス</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_1e454c71e3a1b6.webp" alt="メリオダス">
+            <div><strong>メリオダス</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>メリオダス</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-meliodas">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-diane" data-char="char-diane" data-default-limit="7">
+      <summary class="roster-summary">
+        <img src="mypage_e90ae7c88521e2.webp" alt="ディアンヌ">
+        <span>ディアンヌ</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_e90ae7c88521e2.webp" alt="ディアンヌ">
+            <div><strong>ディアンヌ</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>ディアンヌ</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-diane">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-drake" data-char="char-drake" data-default-limit="6">
+      <summary class="roster-summary">
+        <img src="mypage_d46d7226dde77c.webp" alt="ドレイク">
+        <span>ドレイク</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_d46d7226dde77c.webp" alt="ドレイク">
+            <div><strong>ドレイク</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>ドレイク</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-drake">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-elaine" data-char="char-elaine" data-default-limit="7">
+      <summary class="roster-summary">
+        <img src="mypage_aac7ead230ede0.webp" alt="エレイン">
+        <span>エレイン</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_aac7ead230ede0.webp" alt="エレイン">
+            <div><strong>エレイン</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>エレイン</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-elaine">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-guila" data-char="char-guila" data-default-limit="6">
+      <summary class="roster-summary">
+        <img src="mypage_517d1c5076e8d3.webp" alt="ギーラ">
+        <span>ギーラ</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_517d1c5076e8d3.webp" alt="ギーラ">
+            <div><strong>ギーラ</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>ギーラ</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-guila">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-jericho" data-char="char-jericho" data-default-limit="4">
+      <summary class="roster-summary">
+        <img src="mypage_530a7699596371.webp" alt="ジェリコ">
+        <span>ジェリコ</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_530a7699596371.webp" alt="ジェリコ">
+            <div><strong>ジェリコ</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>ジェリコ</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-jericho">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-king" data-char="char-king" data-default-limit="7">
+      <summary class="roster-summary">
+        <img src="mypage_d669c4a2ca51aa.webp" alt="キング">
+        <span>キング</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_d669c4a2ca51aa.webp" alt="キング">
+            <div><strong>キング</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>キング</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-king">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-mannie" data-char="char-mannie" data-default-limit="6">
+      <summary class="roster-summary">
+        <img src="mypage_137f54b66a0ed1.webp" alt="マニー">
+        <span>マニー</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_137f54b66a0ed1.webp" alt="マニー">
+            <div><strong>マニー</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>マニー</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-mannie">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-escanor" data-char="char-escanor" data-default-limit="6">
+      <summary class="roster-summary">
+        <img src="mypage_d550f4a543e800.webp" alt="エスカノール">
+        <span>エスカノール</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_d550f4a543e800.webp" alt="エスカノール">
+            <div><strong>エスカノール</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>エスカノール</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-escanor">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+    <details class="roster-native" data-char="char-cloto" data-char="char-cloto" data-default-limit="4">
+      <summary class="roster-summary">
+        <img src="mypage_d1a1d33df28e83.webp" alt="クロト">
+        <span>クロト</span>
+      </summary>
+      <div class="roster-expanded">
+        <div class="drawer-head">
+          <div class="drawer-title">
+            <img src="mypage_d1a1d33df28e83.webp" alt="クロト">
+            <div><strong>クロト</strong><span>育成情報を編集</span></div>
+          </div>
+        </div>
+        <div class="drawer-body">
+          
+            <div class="char-body">
+        <strong>クロト</strong>
+        <label>現在の凸数
+          <select class="limit-select"><option value="0">0凸</option><option value="1">1凸</option><option value="2">2凸</option><option value="3">3凸</option><option value="4">4凸</option><option value="5">5凸</option><option value="6">6凸</option><option value="7">7凸</option><option value="8">8凸</option><option value="9">9凸</option><option value="10">10凸</option></select>
+        </label>
+        <div class="char-actions">
+          <button type="button" class="save-limit">保存</button>
+          <a class="character-detail-button" href="index.html#char-cloto">攻略詳細を見る →</a>
+        </div>
+            
+          
+        </div>
+      </div>
+    </details>
+</div>
+</section>
+
+</main>
+
+
+
+
+
+
+<script>
+(function(){
+ const PID='nanao_mypage_pid', PREFIX='nanao_limit_';
+ const pid=document.getElementById('mypid'), status=document.getElementById('pidstatus');
+ function renderPid(){
+   const v=localStorage.getItem(PID)||'';
+   pid.value=v; status.textContent=v?'登録済み：'+v:'PIDは未登録です。';
+ }
+ document.getElementById('savepid').onclick=()=>{const v=pid.value.trim();if(!v){status.textContent='PIDを入力してください。';return}localStorage.setItem(PID,v);renderPid();status.textContent='✓ PIDを保存しました。'};
+ document.getElementById('copypid').onclick=async()=>{const v=localStorage.getItem(PID)||pid.value.trim();if(!v){status.textContent='PIDを先に登録してください。';return}try{await navigator.clipboard.writeText(v)}catch(e){pid.value=v;pid.select();document.execCommand('copy')}status.textContent='✓ PIDをコピーしました。'};
+ document.getElementById('deletepid').onclick=()=>{localStorage.removeItem(PID);renderPid();status.textContent='PIDを削除しました。'};
+ renderPid();
+
+ document.querySelectorAll('.char-card').forEach(card=>{
+   const id=card.dataset.char, sel=card.querySelector('.limit-select'), save=card.querySelector('.save-limit'), name=card.querySelector('strong');
+   const saved=localStorage.getItem(PREFIX+id);
+   const remembered=card.dataset.defaultLimit;
+   if(saved!==null){
+     sel.value=saved;
+     name.insertAdjacentHTML('beforeend','<span class="saved-badge">保存済み</span>');
+   }else if(remembered!==undefined && remembered!==''){
+     sel.value=remembered;
+     localStorage.setItem(PREFIX+id,remembered);
+     name.insertAdjacentHTML('beforeend','<span class="saved-badge">自動入力</span>');
+   }
+   save.onclick=()=>{
+     localStorage.setItem(PREFIX+id,sel.value);
+     if(!name.querySelector('.saved-badge'))name.insertAdjacentHTML('beforeend','<span class="saved-badge">保存済み</span>');
+     save.textContent='保存済み';
+     setTimeout(()=>save.textContent='保存',900);
+   };
+ });
+})();
+</script>
+
+<script>
+(function(){
+  const PREFIX='nanao_owned_engraving_';
+  const checks=Array.from(document.querySelectorAll('.owned-check'));
+  checks.forEach(function(c){
+    const saved=localStorage.getItem(PREFIX+c.dataset.key)==='1';
+    c.checked=saved;
+    c.addEventListener('change',function(){
+      if(c.checked) localStorage.setItem(PREFIX+c.dataset.key,'1');
+      else localStorage.removeItem(PREFIX+c.dataset.key);
+    });
+  });
+})();
+</script>
+
+
+
+
+<script>
+(function(){
+  const KEY='nanao_profile_avatar';
+  const radios=Array.from(document.querySelectorAll('.avatar-radio'));
+  try{
+    const saved=localStorage.getItem(KEY);
+    if(saved){
+      const r=document.getElementById('avatar-'+saved);
+      if(r) r.checked=true;
+    }
+  }catch(e){}
+  radios.forEach(function(r){
+    r.addEventListener('change',function(){
+      if(!r.checked) return;
+      try{localStorage.setItem(KEY,r.value);}catch(e){}
+      const status=document.getElementById('profile-avatar-status');
+      const label=document.querySelector('.avatar-label[data-avatar="'+r.value+'"]');
+      if(status && label){
+        status.textContent='✓ '+(label.dataset.name||r.value)+'を選択しました。上のアイコン部分をタップすると閉じます。';
+      }
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  const KEY='nanao_profile_player_id';
+  const input=document.getElementById('profile-player-id');
+  const save=document.getElementById('profile-id-save');
+  const status=document.getElementById('profile-id-status');
+  if(!input) return;
+
+  try{
+    const saved=localStorage.getItem(KEY);
+    if(saved) input.value=saved;
+  }catch(e){}
+
+  function saveId(){
+    const value=input.value.trim();
+    try{
+      if(value) localStorage.setItem(KEY,value);
+      else localStorage.removeItem(KEY);
+    }catch(e){}
+    if(status) status.textContent=value ? '✓ IDを保存しました' : 'IDを削除しました';
+  }
+
+  if(save) save.addEventListener('click',saveId);
+  input.addEventListener('change',saveId);
+})();
+</script>
+
+<script>
+(function(){
+  const KEY='nanao_profile_username';
+  const input=document.getElementById('profile-username');
+  const status=document.getElementById('profile-username-status');
+  if(!input) return;
+  try{
+    const saved=localStorage.getItem(KEY);
+    if(saved) input.value=saved;
+  }catch(e){}
+  function saveName(){
+    const value=input.value.trim();
+    try{
+      if(value) localStorage.setItem(KEY,value);
+      else localStorage.removeItem(KEY);
+    }catch(e){}
+    if(status) status.textContent=value ? '✓ 保存済み' : '';
+  }
+  input.addEventListener('change',saveName);
+  input.addEventListener('blur',saveName);
+})();
+</script>
+
+<script>
+(function(){
+  const checks=Array.from(document.querySelectorAll('.owned-check'));
+  const totalEl=document.getElementById('completion-total');
+  const ownedEl=document.getElementById('completion-owned');
+  const missingEl=document.getElementById('completion-missing');
+  const fill=document.getElementById('completion-bar-fill');
+  const panel=document.getElementById('completion');
+  if(!checks.length || !totalEl) return;
+
+  function updateCompletion(){
+    const total=checks.length;
+    const owned=checks.filter(function(c){return c.checked;}).length;
+    const missing=total-owned;
+    const pct=total ? (owned/total*100) : 0;
+    const shown=(pct===100 || pct===0) ? Math.round(pct) : Math.round(pct*10)/10;
+
+    totalEl.textContent=shown+'%';
+    ownedEl.textContent=owned+' / '+total;
+    missingEl.textContent=missing;
+    fill.style.width=pct+'%';
+    panel.classList.toggle('perfect',total>0 && owned===total);
+  }
+
+  checks.forEach(function(c){
+    c.addEventListener('change',function(){
+      setTimeout(updateCompletion,0);
+    });
+  });
+  setTimeout(updateCompletion,0);
+})();
+</script>
+</body>
+<!-- My Page v1.1 プロフィールアイコン15キャラ選択・端末保存 --><!-- My Page v1.2 大型プロフィールアイコン＋タップ選択UI --><!-- My Page v1.2.1 アイコンタップ不具合修正 --><!-- My Page v1.3 JSなしでも選べるネイティブアイコン選択UI --><!-- My Page v1.4 キャラアイコン選択画面大型化 --><!-- My Page v1.5 過去記録から凸数を自動入力 --><!-- My Page v1.6 15キャラ凸数自動入力完了 --><!-- My Page v1.7 所持刻印装備チェック管理 --><!-- My Page v1.8 キャラ凸数直下に所持刻印装備を移動 --><!-- My Page v1.9 各キャラの凸数欄に刻印所持チェックを統合 --><!-- My Page v1.9.1 横幅オーバーフロー修正 --><!-- My Page v2.0 hybrid: profile/PID/quick menu + compact character management -->
+<!-- My Page v2.1 3列所持キャラ + タップ展開編集 -->
+<!-- My Page v2.2 3列キャラをdetails方式へ変更しタップ不具合修正 -->
+<!-- My Page v2.2.1 開いたキャラを再タップで閉じられるよう修正 -->
+<!-- My Page v2.2.2 プロフィールアイコンを同じキャラ2回タップで決定・保存・閉じる -->
+<!-- My Page v2.2.3 プロフィールアイコン確定処理を再構築＋決定ボタン保険 -->
+<!-- My Page v2.2.4 プロフィールアイコンはネイティブ選択→上部summary再タップで閉じる -->
+<!-- My Page v2.2.5 説明文削除＋選択を閉じる大型化 -->
+<!-- My Page v2.2.6 プロフィール説明文を削除しプレイヤーID入力欄へ変更 -->
+<!-- My Page v2.2.7 ユーザーネーム入力欄追加 -->
+<!-- My Page v2.3 刻印コンプリート率・進捗ゲージ・PERFECT COMPLETE -->
+<!-- My Page v2.3.1 イントロ見出し・説明文削除でコンパクト化 -->
+<!-- My Page v2.3.2 旧クーポンPIDパネル削除＋プロフィールID下に公式クーポン導線統合 -->
+<!-- My Page v2.3.3 プロフィールID下にクーポンコード一覧リンク追加 -->
+<!-- My Page v2.3.4 キャラ一覧下に残っていた旧デリエリ凸入力欄を削除 -->
+<!-- My Page v2.3.5 旧char-detail-drawer一式を完全削除 -->
+<!-- My Page v2.3.6 攻略詳細リンクを独立タップ領域＋別タブ遷移に修正 -->
+<!-- My Page v2.3.7 攻略詳細リンクを同一タブ遷移へ変更 -->
+</html>

@@ -1121,8 +1121,308 @@ a.card[href="#char-elizabeth"] img{background:#000!important;}
 .pid-delete{background:rgba(255,255,255,.07);color:inherit;font-size:12px}
 @media(max-width:520px){.pid-actions{grid-template-columns:1fr}}
 </style>
+
+<style>
+.quality-guide{
+  margin:18px 0 28px;
+  padding:16px;
+  border:1px solid rgba(241,209,138,.28);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(24,19,31,.98),rgba(12,13,18,.98));
+}
+.quality-title-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.quality-title-row h2{margin:2px 0 0;font-size:22px}
+.quality-kicker{color:#f1d18a;font-size:11px;font-weight:900;letter-spacing:.08em}
+.quality-badge{white-space:nowrap;padding:6px 9px;border-radius:999px;background:rgba(241,209,138,.12);color:#f1d18a;font-size:10px;font-weight:900}
+.quality-note,.quality-formula,.quality-footnote{
+  margin-top:12px;padding:11px 12px;border-radius:12px;background:rgba(255,255,255,.045);
+  font-size:12px;line-height:1.75;color:rgba(255,255,255,.82)
+}
+.quality-search-card{margin-top:14px;padding:13px;border:1px solid rgba(162,117,255,.24);border-radius:14px;background:rgba(122,82,199,.08)}
+.quality-search-head{font-size:14px;font-weight:950;margin-bottom:9px}
+.quality-search-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
+.quality-search-grid label{font-size:10px;opacity:.72;font-weight:900}
+.quality-search-grid select{
+  display:block;width:100%;margin-top:4px;padding:10px;border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;background:#101116;color:#fff;font-size:15px;font-weight:900
+}
+#quality-calc-btn{
+  min-height:42px;padding:0 14px;border:0;border-radius:10px;background:#f1d18a;color:#18130b;
+  font-weight:1000;font-size:13px;cursor:pointer
+}
+.quality-result{
+  margin-top:10px;padding:13px;border-radius:12px;background:#0d0e12;border:1px solid rgba(241,209,138,.24);
+  text-align:center
+}
+.quality-result-label{display:block;font-size:11px;opacity:.65;margin-bottom:5px}
+.quality-result div{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+.quality-result strong{font-size:20px;color:#f1d18a}
+.quality-table-wrap{margin-top:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;border:1px solid rgba(255,255,255,.09)}
+.quality-table{width:100%;min-width:760px;border-collapse:collapse;background:#0e0f13}
+.quality-table th,.quality-table td{padding:8px 7px;border-bottom:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.05);text-align:center}
+.quality-table thead th{position:sticky;top:0;background:#171922;color:#f1d18a;font-size:11px;z-index:1}
+.quality-table tbody th{background:#14151b;color:#f1d18a;font-size:12px}
+.quality-table td b{display:block;font-size:12px}
+.quality-table td small,.quality-table th small{display:block;font-size:9px;opacity:.55;margin-top:2px}
+.quality-footnote{font-size:10px;opacity:.72}
+@media(max-width:520px){
+  .quality-guide{padding:12px}
+  .quality-title-row h2{font-size:18px}
+  .quality-search-grid{grid-template-columns:1fr 1fr}
+  #quality-calc-btn{grid-column:1/-1}
+  .quality-result strong{font-size:18px}
+}
+</style>
+
+<style>
+/* JavaScript不要版：品質・防具Lv検索 */
+.quality-search-help{
+  margin:0 0 10px;
+  font-size:11px;
+  line-height:1.6;
+  opacity:.72;
+}
+.quality-picker-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+}
+.quality-picker{
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:10px;
+  background:#101116;
+  overflow:hidden;
+}
+.quality-picker summary{
+  padding:10px 11px;
+  cursor:pointer;
+  color:#f1d18a;
+  font-size:13px;
+  font-weight:900;
+  list-style:none;
+}
+.quality-picker summary::-webkit-details-marker{display:none}
+.quality-level-links{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+  padding:0 8px 8px;
+}
+.quality-level-links a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:36px;
+  border-radius:8px;
+  background:rgba(241,209,138,.10);
+  color:#f1d18a;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:900;
+}
+.quality-static-results{
+  margin-top:12px;
+  display:grid;
+  gap:8px;
+}
+.quality-static-result{
+  scroll-margin-top:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px 12px;
+  padding:11px 12px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:11px;
+  background:#0e0f13;
+}
+.quality-static-result span{
+  grid-column:1/-1;
+  font-size:11px;
+  opacity:.65;
+}
+.quality-static-result strong{
+  font-size:15px;
+  color:#f1d18a;
+}
+.quality-static-result a{
+  grid-column:1/-1;
+  margin-top:3px;
+  font-size:10px;
+  color:#bca4ff;
+  text-decoration:none;
+}
+.quality-static-result:target{
+  border-color:rgba(241,209,138,.75);
+  box-shadow:0 0 0 2px rgba(241,209,138,.12);
+  background:rgba(241,209,138,.08);
+}
+@media(max-width:520px){
+  .quality-picker-list{grid-template-columns:1fr 1fr}
+}
+</style>
+
+<style>
+.quality-search-compact{padding:14px}
+.quality-search-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+}
+#quality-query{
+  min-width:0;
+  width:100%;
+  min-height:46px;
+  padding:0 13px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:11px;
+  background:#0d0e12;
+  color:#fff;
+  font-size:16px;
+  font-weight:800;
+  outline:none;
+}
+#quality-query:focus{border-color:rgba(241,209,138,.6)}
+#quality-search-btn{
+  min-width:78px;
+  min-height:46px;
+  border:0;
+  border-radius:11px;
+  background:#f1d18a;
+  color:#17120a;
+  font-size:14px;
+  font-weight:1000;
+  cursor:pointer;
+  -webkit-appearance:none;
+  appearance:none;
+  touch-action:manipulation;
+  pointer-events:auto;
+}
+.quality-search-result{
+  margin-top:10px;
+  padding:12px;
+  border:1px solid rgba(241,209,138,.22);
+  border-radius:11px;
+  background:#0d0e12;
+  text-align:center;
+}
+.quality-search-result span{
+  font-size:11px;
+  opacity:.65;
+}
+.quality-search-result .result-title{
+  display:block;
+  margin-bottom:5px;
+  color:#fff;
+  font-size:12px;
+  opacity:.72;
+}
+.quality-search-result .result-values{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.quality-search-result strong{
+  color:#f1d18a;
+  font-size:20px;
+}
+.quality-search-examples{
+  margin-top:7px;
+  font-size:10px;
+  opacity:.55;
+}
+.quality-table-details{margin-top:12px}
+.quality-table-details>summary{
+  cursor:pointer;
+  list-style:none;
+  padding:11px 12px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:11px;
+  background:#121318;
+  color:#f1d18a;
+  font-size:12px;
+  font-weight:900;
+}
+.quality-table-details>summary::-webkit-details-marker{display:none}
+.quality-table-details[open]>summary{border-radius:11px 11px 0 0}
+.quality-table-details[open] .quality-table-wrap{margin-top:0;border-radius:0 0 12px 12px}
+</style>
+
+<style>
+/* 品質 × 防具Lv の2択検索 */
+.quality-search-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+  gap:8px;
+  align-items:end;
+}
+.quality-search-grid label{
+  font-size:11px;
+  font-weight:900;
+  color:rgba(255,255,255,.72);
+}
+.quality-search-grid select{
+  display:block;
+  width:100%;
+  margin-top:5px;
+  padding:11px 10px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;
+  background:#0d0e12;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+}
+.quality-equals{
+  padding-bottom:12px;
+  color:#f1d18a;
+  font-size:18px;
+  font-weight:1000;
+}
+#quality-search-btn{
+  grid-column:1/-1;
+  min-height:44px;
+  margin-top:2px;
+  border:0;
+  border-radius:10px;
+  background:#f1d18a;
+  color:#18130b;
+  font-size:14px;
+  font-weight:1000;
+  cursor:pointer;
+}
+.quality-result-formula{
+  margin-top:10px;
+  padding:12px;
+  border:1px solid rgba(241,209,138,.22);
+  border-radius:11px;
+  background:#0d0e12;
+  text-align:center;
+}
+#quality-result-label{
+  display:block;
+  margin-bottom:5px;
+  font-size:11px;
+  opacity:.62;
+}
+.quality-result-values{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.quality-result-values strong{
+  color:#f1d18a;
+  font-size:20px;
+}
+.quality-result-sep{
+  opacity:.35;
+  font-weight:900;
+}
+</style>
 </head><body>
-<header class="top"><div class="brand">ナナオリ 個人攻略DB</div><div class="nav"><a href="mypage.html">👤 マイページ</a><a href="#latest-info">🆕 最新情報</a><a href="#characters">キャラ</a><a href="#equipment">装備セット</a><a href="#engraved">刻印装備</a><a href="#engraving-ranking">刻印ランキング</a><a href="#coupon-entry">🎟️ クーポン入力</a></div></header><main>
+<header class="top"><div class="brand">ナナオリ 個人攻略DB</div><div class="nav"><a href="mypage.html">👤 マイページ</a><a href="#latest-info">🆕 最新情報</a><a href="#characters">キャラ</a><a href="#equipment">装備セット</a><a href="#engraved">刻印装備</a><a href="#quality-guide">🧪 品質早見表</a><a href="#engraving-ranking">刻印ランキング</a><a href="#coupon-entry">🎟️ クーポン入力</a></div></header><main>
 <section id="characters"><h1 style="font-size:20px;margin:6px 0">キャラクター一覧</h1><div class="note">キャラをタップ → 詳細へ移動。スキル / 刻印装備 / おすすめ防具 / 凸評価 / 合技 / 立ち回りを確認できます。武器切替はiPhone対応のHTML/CSS方式です。</div><div class="tabs"><span class="tab active">SSR</span><span class="tab">SR（準備中）</span></div><div class="grid"><a class="card" href="#char-derieri"><img alt="デリエリ" src="db_751a6e3fb16114.webp"/><div class="pad"><div class="name">デリエリ</div><div class="sub">Derieri<br/>暗黒 / 火炎 ｜ アタッカー / サポーター</div></div></a><a class="card" href="#char-gowther"><img alt="ゴウセル" src="db_7bb70a1a14aece.webp"/><div class="pad"><div class="name">ゴウセル</div><div class="sub">Gowther<br/>雷 ｜ サポーター</div></div></a><a class="card" href="#char-elizabeth"><img alt="エリザベス" src="db_0a4830f88aedc4.webp"/><div class="pad"><div class="name">エリザベス</div><div class="sub">Elizabeth<br/>神聖 / 風 / 大地 ｜ サポーター</div></div></a><a class="card" href="#char-merlin"><img alt="マーリン" src="db_c04a9f073e60c0.webp"/><div class="pad"><div class="name">マーリン</div><div class="sub">Merlin<br/>冷気 / 雷 / 火炎 ｜ アタッカー / サポーター</div></div></a><a class="card" href="#char-daisy"><img alt="デイジー" src="db_61e542693ae484.webp"/><div class="pad"><div class="name">デイジー</div><div class="sub">Daisy<br/>大地 / 雷 / 風 ｜ サポーター</div></div></a><a class="card" href="#char-meliodas"><img alt="メリオダス" src="db_1e454c71e3a1b6.webp"/><div class="pad"><div class="name">メリオダス</div><div class="sub">Meliodas<br/>暗黒 ｜ アタッカー</div></div></a><a class="card" href="#char-diane"><img alt="ディアンヌ" src="db_e90ae7c88521e2.webp"/><div class="pad"><div class="name">ディアンヌ</div><div class="sub">Diane<br/>大地 ｜ アタッカー / バスター</div></div></a><a class="card" href="#char-drake"><img alt="ドレイク" src="db_d46d7226dde77c.webp"/><div class="pad"><div class="name">ドレイク</div><div class="sub">Drake<br/>雷 ｜ アタッカー / サポーター / バスター</div></div></a><a class="card" href="#char-elaine"><img alt="エレイン" src="db_aac7ead230ede0.webp"/><div class="pad"><div class="name">エレイン</div><div class="sub">Elaine<br/>風 / 神聖 / 大地 ｜ アタッカー / バスター / ウォーデン</div></div></a><a class="card" href="#char-guila"><img alt="ギーラ" src="db_517d1c5076e8d3.webp"/><div class="pad"><div class="name">ギーラ</div><div class="sub">Guila<br/>火炎 ｜ アタッカー / ウォーデン / バスター</div></div></a><a class="card" href="#char-jericho"><img alt="ジェリコ" src="db_530a7699596371.webp"/><div class="pad"><div class="name">ジェリコ</div><div class="sub">Jericho<br/>冷気 ｜ アタッカー / バスター / ウォーデン</div></div></a><a class="card" href="#char-king"><img alt="キング" src="db_d669c4a2ca51aa.webp"/><div class="pad"><div class="name">キング</div><div class="sub">King<br/>神聖 / 大地 ｜ アタッカー / ウォーデン / サポーター</div></div></a><a class="card" href="#char-mannie"><img alt="マニー" src="db_137f54b66a0ed1.webp"/><div class="pad"><div class="name">マニー</div><div class="sub">Mannie<br/>神聖 / 冷気 ｜ サポーター / アタッカー</div></div></a><a class="card" href="#char-escanor"><img alt="エスカノール" src="db_d550f4a543e800.webp"/><div class="pad"><div class="name">エスカノール</div><div class="sub">Escanor<br/>火炎 / 神聖 ｜ アタッカー / バスター / ウォーデン</div></div></a><a class="card" href="#char-cloto"><img alt="クロト" src="db_d1a1d33df28e83.webp"/><div class="pad"><div class="name">クロト</div><div class="sub">Cloto<br/>風 / 冷気 ｜ バスター</div></div></a></div></section><section class="detail" id="char-derieri"><a class="back" href="#characters">← キャラクター一覧へ</a><div class="hero"><img alt="デリエリ" src="db_751a6e3fb16114.webp"/><div class="pad"><div class="name">デリエリ</div><div class="sub">Derieri</div><div class="tags"><span class="tag attr-dark">暗黒</span><span class="tag attr-fire">火炎</span><span class="tag">アタッカー</span><span class="tag">サポーター</span></div></div></div><details class="char-panel" id="char-derieri-skills"><summary>スキル</summary><div class="panel-body">
 <div class="weapon-switcher">
 <input checked="" class="weapon-radio" id="weapons-derieri-0" name="weapons-derieri" type="radio"/>
@@ -2038,12 +2338,164 @@ a.card[href="#char-elizabeth"] img{background:#000!important;}
   <p class="coupon-note">※クーポン報酬はゲーム内メールボックスに届きます。使用済み・期限切れのコードは利用できません。</p>
 </section>
 
+
+<section id="quality-guide" class="quality-guide">
+  <div class="quality-title-row">
+    <div>
+      <div class="quality-kicker">🧪 実測検証データ</div>
+      <h2>刻印装備 品質 × 防具Lv 早見表</h2>
+    </div>
+    <span class="quality-badge">SSR刻印装備</span>
+  </div>
+
+  <div class="quality-note">
+    実測検証では、刻印装備が別物でも同じ品質・同じ防具Lvなら
+    <b>装備HP / 装備防御力は同一</b>でした。品質1上昇ごとに
+    <b>HP +137 / 防御力 +49</b>。防具Lv補正はLv0基準で
+    <b>Lv1 103% / Lv2 107% / Lv3 112% / Lv4 118% / Lv5 125%</b>。
+    ゲーム表示は小数を切り上げた値と一致しています。
+  </div>
+
+  
+
+
+<div class="quality-search-card quality-search-compact" id="quality-search">
+  <div class="quality-search-head">🔎 品質・防具Lv検索</div>
+  <div class="quality-search-grid">
+    <label>品質
+      <select id="quality-select">
+        <option value="111">111</option><option value="112">112</option><option value="113">113</option>
+        <option value="114">114</option><option value="115">115</option><option value="116">116</option>
+        <option value="117">117</option><option value="118">118</option><option value="119">119</option>
+        <option value="120">120</option><option value="121">121</option><option value="122">122</option>
+        <option value="123">123</option><option value="124">124</option><option value="125" selected>125</option>
+        <option value="126">126</option><option value="127">127</option><option value="128">128</option>
+        <option value="129">129</option><option value="130">130</option>
+      </select>
+    </label>
+    <div class="quality-equals">×</div>
+    <label>防具Lv
+      <select id="quality-level-select">
+        <option value="0">Lv0</option>
+        <option value="1">Lv1</option>
+        <option value="2">Lv2</option>
+        <option value="3">Lv3</option>
+        <option value="4">Lv4</option>
+        <option value="5" selected>Lv5</option>
+      </select>
+    </label>
+    <button type="button" id="quality-search-btn">検索</button>
+  </div>
+
+  <div class="quality-result-formula">
+    <span id="quality-result-label">品質125・Lv5</span>
+    <div class="quality-result-values">
+      <strong id="quality-result-hp">HP 20,822</strong>
+      <span class="quality-result-sep">／</span>
+      <strong id="quality-result-def">防御 7,453</strong>
+    </div>
+  </div>
+</div>
+
+<div class="quality-formula">
+    <b>Lv0基礎値</b>：
+    HP = 14,739 + 137 ×（品質 − 111） /
+    防御 = 5,276 + 49 ×（品質 − 111）
+  </div>
+
+  <details class="quality-table-details"><summary>111〜130 × Lv0〜5 の全早見表を見る</summary><div class="quality-table-wrap">
+    <table class="quality-table">
+      <thead>
+        <tr>
+          <th>品質</th>
+          <th>Lv0<small>HP / 防御</small></th>
+          <th>Lv1<small>HP / 防御</small></th>
+          <th>Lv2<small>HP / 防御</small></th>
+          <th>Lv3<small>HP / 防御</small></th>
+          <th>Lv4<small>HP / 防御</small></th>
+          <th>Lv5<small>HP / 防御</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th>111</th><td><b>14,739</b><small>5,276</small></td><td><b>15,182</b><small>5,435</small></td><td><b>15,771</b><small>5,646</small></td><td><b>16,508</b><small>5,910</small></td><td><b>17,393</b><small>6,226</small></td><td><b>18,424</b><small>6,595</small></td></tr>
+<tr><th>112</th><td><b>14,876</b><small>5,325</small></td><td><b>15,323</b><small>5,485</small></td><td><b>15,918</b><small>5,698</small></td><td><b>16,662</b><small>5,965</small></td><td><b>17,554</b><small>6,284</small></td><td><b>18,595</b><small>6,657</small></td></tr>
+<tr><th>113</th><td><b>15,013</b><small>5,374</small></td><td><b>15,464</b><small>5,536</small></td><td><b>16,064</b><small>5,751</small></td><td><b>16,815</b><small>6,019</small></td><td><b>17,716</b><small>6,342</small></td><td><b>18,767</b><small>6,718</small></td></tr>
+<tr><th>114</th><td><b>15,150</b><small>5,423</small></td><td><b>15,605</b><small>5,586</small></td><td><b>16,211</b><small>5,803</small></td><td><b>16,968</b><small>6,074</small></td><td><b>17,877</b><small>6,400</small></td><td><b>18,938</b><small>6,779</small></td></tr>
+<tr><th>115</th><td><b>15,287</b><small>5,472</small></td><td><b>15,746</b><small>5,637</small></td><td><b>16,358</b><small>5,856</small></td><td><b>17,122</b><small>6,129</small></td><td><b>18,039</b><small>6,457</small></td><td><b>19,109</b><small>6,840</small></td></tr>
+<tr><th>116</th><td><b>15,424</b><small>5,521</small></td><td><b>15,887</b><small>5,687</small></td><td><b>16,504</b><small>5,908</small></td><td><b>17,275</b><small>6,184</small></td><td><b>18,201</b><small>6,515</small></td><td><b>19,280</b><small>6,902</small></td></tr>
+<tr><th>117</th><td><b>15,561</b><small>5,570</small></td><td><b>16,028</b><small>5,738</small></td><td><b>16,651</b><small>5,960</small></td><td><b>17,429</b><small>6,239</small></td><td><b>18,362</b><small>6,573</small></td><td><b>19,452</b><small>6,963</small></td></tr>
+<tr><th>118</th><td><b>15,698</b><small>5,619</small></td><td><b>16,169</b><small>5,788</small></td><td><b>16,797</b><small>6,013</small></td><td><b>17,582</b><small>6,294</small></td><td><b>18,524</b><small>6,631</small></td><td><b>19,623</b><small>7,024</small></td></tr>
+<tr><th>119</th><td><b>15,835</b><small>5,668</small></td><td><b>16,311</b><small>5,839</small></td><td><b>16,944</b><small>6,065</small></td><td><b>17,736</b><small>6,349</small></td><td><b>18,686</b><small>6,689</small></td><td><b>19,794</b><small>7,085</small></td></tr>
+<tr><th>120</th><td><b>15,972</b><small>5,717</small></td><td><b>16,452</b><small>5,889</small></td><td><b>17,091</b><small>6,118</small></td><td><b>17,889</b><small>6,404</small></td><td><b>18,847</b><small>6,747</small></td><td><b>19,965</b><small>7,147</small></td></tr>
+<tr><th>121</th><td><b>16,109</b><small>5,766</small></td><td><b>16,593</b><small>5,939</small></td><td><b>17,237</b><small>6,170</small></td><td><b>18,043</b><small>6,458</small></td><td><b>19,009</b><small>6,804</small></td><td><b>20,137</b><small>7,208</small></td></tr>
+<tr><th>122</th><td><b>16,246</b><small>5,815</small></td><td><b>16,734</b><small>5,990</small></td><td><b>17,384</b><small>6,223</small></td><td><b>18,196</b><small>6,513</small></td><td><b>19,171</b><small>6,862</small></td><td><b>20,308</b><small>7,269</small></td></tr>
+<tr><th>123</th><td><b>16,383</b><small>5,864</small></td><td><b>16,875</b><small>6,040</small></td><td><b>17,530</b><small>6,275</small></td><td><b>18,349</b><small>6,568</small></td><td><b>19,332</b><small>6,920</small></td><td><b>20,479</b><small>7,330</small></td></tr>
+<tr><th>124</th><td><b>16,520</b><small>5,913</small></td><td><b>17,016</b><small>6,091</small></td><td><b>17,677</b><small>6,327</small></td><td><b>18,503</b><small>6,623</small></td><td><b>19,494</b><small>6,978</small></td><td><b>20,650</b><small>7,392</small></td></tr>
+<tr><th>125</th><td><b>16,657</b><small>5,962</small></td><td><b>17,157</b><small>6,141</small></td><td><b>17,823</b><small>6,380</small></td><td><b>18,656</b><small>6,678</small></td><td><b>19,656</b><small>7,036</small></td><td><b>20,822</b><small>7,453</small></td></tr>
+<tr><th>126</th><td><b>16,794</b><small>6,011</small></td><td><b>17,298</b><small>6,192</small></td><td><b>17,970</b><small>6,432</small></td><td><b>18,810</b><small>6,733</small></td><td><b>19,817</b><small>7,093</small></td><td><b>20,993</b><small>7,514</small></td></tr>
+<tr><th>127</th><td><b>16,931</b><small>6,060</small></td><td><b>17,439</b><small>6,242</small></td><td><b>18,117</b><small>6,485</small></td><td><b>18,963</b><small>6,788</small></td><td><b>19,979</b><small>7,151</small></td><td><b>21,164</b><small>7,575</small></td></tr>
+<tr><th>128</th><td><b>17,068</b><small>6,109</small></td><td><b>17,581</b><small>6,293</small></td><td><b>18,263</b><small>6,537</small></td><td><b>19,117</b><small>6,843</small></td><td><b>20,141</b><small>7,209</small></td><td><b>21,335</b><small>7,637</small></td></tr>
+<tr><th>129</th><td><b>17,205</b><small>6,158</small></td><td><b>17,722</b><small>6,343</small></td><td><b>18,410</b><small>6,590</small></td><td><b>19,270</b><small>6,897</small></td><td><b>20,302</b><small>7,267</small></td><td><b>21,507</b><small>7,698</small></td></tr>
+<tr><th>130</th><td><b>17,342</b><small>6,207</small></td><td><b>17,863</b><small>6,394</small></td><td><b>18,556</b><small>6,642</small></td><td><b>19,424</b><small>6,952</small></td><td><b>20,464</b><small>7,325</small></td><td><b>21,678</b><small>7,759</small></td></tr>
+      </tbody>
+    </table>
+  </div></details>
+
+  <div class="quality-footnote">
+    ※現在の表は今回の実測検証で確認したSSR刻印装備のHP・防御力を対象にしています。
+    属性攻撃力やその他の固有ステータス、刻印オプションは装備ごとに別です。
+  </div>
+</section>
+
 <section id="latest-info" class="latest-info"><h2>🆕 最新情報</h2><p class="update-note">主要アップデートを簡潔に整理。新しい情報ほど上に掲載します。</p><article class="update-card"><h3><span class="update-badge">Ver.2.0</span>ハーフアニバーサリー「強奪祭」</h3><ul><li>8月26日よりハーフアニバーサリー「強奪祭」を開催。</li><li>新キャラ〈強欲の罪〉バンが登場。</li><li>「時空の交わり」シーズンⅡが開幕予定。シーズンⅠの既存エリアをリセットし、新たにエリア1から順次開放。</li><li>開発ノート#18でVer.2.0の主要内容とハーフアニバーサリー特別プレゼントを案内。</li></ul><p><a href="https://7origin.netmarble.com/ja/news/4/283" target="_blank" rel="noopener">開発ノート#18を見る ↗</a></p></article><article class="update-card"><h3><span class="update-badge">Ver.1.8</span>デリエリ登場</h3><p>新キャラ「デリエリ」／次元の記憶／イベント討伐戦／時空の交わりシーズンⅠ最終エリアなど。</p></article><article class="update-card"><h3><span class="update-badge">Ver.1.7</span>ゴウセル・Act15</h3><p>新キャラ「ゴウセル」／Act15／新エリア「リオネスの北部戦線」／新ボス・新レイド・刻印装備など。</p></article><article class="update-card"><h3><span class="update-badge">Ver.1.6</span>100日記念・エリザベス</h3><p>新キャラ「エリザベス」／100日記念・夏イベント／ペット探検／高難度追加・各種調整。</p></article><article class="update-card"><h3><span class="update-badge">Ver.1.5</span>砂嵐を越えて</h3><p>新キャラ「マーリン」／Act14「時間の罠」／拘束された聖域／タラニスの聖地／ランキングボード プレシーズン2。</p><p><a href="https://7origin.netmarble.com/ja/news/3/206" target="_blank" rel="noopener">公式情報を見る ↗</a></p></article><article class="update-card"><h3><span class="update-badge">Ver.1.4</span>1.3第2弾・コンテンツ拡張</h3><p>イベントストーリー「エコーイング・ハート」／ランキング関連／製作・操作・表示改善／キャラ調整。</p><p><a href="https://7origin.netmarble.com/ja/news/7/193" target="_blank" rel="noopener">公式情報を見る ↗</a></p></article><article class="update-card"><h3><span class="update-badge">Ver.1.3</span>クロト登場</h3><p>新キャラ「クロト」／専用コスチューム／深層のクモの巣・侵食 古竜Abyss／強化ダンジョンHell・Abyss。</p><p><a href="https://7origin.netmarble.com/ja/news/3/178" target="_blank" rel="noopener">公式情報を見る ↗</a></p></article><article class="update-card"><h3><span class="update-badge">Ver.1.2</span>再び昇る太陽</h3><p>新キャラ「エスカノール」／Act13「再び昇る太陽」／高難度コンテンツ／時空の交わり。</p><p><a href="https://7origin.netmarble.com/ja/news/7/158" target="_blank" rel="noopener">公式情報を見る ↗</a></p></article><article class="update-card"><h3><span class="update-badge">Ver.1.1</span>デイジー登場</h3><p>新キャラ「デイジー」／関連ピックアップ・イベント。</p></article><article class="update-card"><h3><span class="update-badge">Ver.1.0</span>正式リリース</h3><p>『七つの大罪：Origin』正式サービス開始。</p></article><article class="update-card"><h3>📖 開発ノート</h3><p>アップデート履歴とは別枠で、実装前の予定・改善方針・ロードマップを整理。最新の開発ノート#18ではVer.2.0の主要内容とハーフアニバーサリー特別プレゼントが案内されています。</p></article></section>
+
+
+
+
+
+
+
+
+
+<script>
+(function(){
+  var q = document.getElementById('quality-select');
+  var lv = document.getElementById('quality-level-select');
+  var btn = document.getElementById('quality-search-btn');
+  var label = document.getElementById('quality-result-label');
+  var hpEl = document.getElementById('quality-result-hp');
+  var defEl = document.getElementById('quality-result-def');
+
+  if(!q || !lv || !label || !hpEl || !defEl) return;
+
+  var mult = [1,1.03,1.07,1.12,1.18,1.25];
+
+  function calc(){
+    var quality = parseInt(q.value,10);
+    var level = parseInt(lv.value,10);
+    var hp0 = 14739 + 137 * (quality - 111);
+    var def0 = 5276 + 49 * (quality - 111);
+    var hp = Math.ceil(hp0 * mult[level]);
+    var def = Math.ceil(def0 * mult[level]);
+
+    label.textContent = '品質' + quality + '・Lv' + level;
+    hpEl.textContent = 'HP ' + hp.toLocaleString('ja-JP');
+    defEl.textContent = '防御 ' + def.toLocaleString('ja-JP');
+  }
+
+  if(btn) btn.addEventListener('click', calc);
+  q.addEventListener('change', calc);
+  lv.addEventListener('change', calc);
+  calc();
+})();
+</script>
+
 </body>
 <!-- v1.0.2
 ジェリコ刻印4種の画像・Lv1〜3効果を正式追加。
 ランキング点数については、ユーザー提供データに点数が含まれていないため既存順位を勝手に変更していない。
 -->
 
-<!-- v1.0.3 ジェリコ4刻印ランキング正式追加 --><!-- v1.0.4 最新情報欄追加 --><!-- v1.0.5 横スクロール先頭に最新情報リンク追加 --><!-- v1.0.6 アップデート履歴整理＋公式リンク追加 --><!-- v1.0.7 Ver.2.0判明分＋過去履歴整理 --><!-- v1.0.8 クーポン入力導線追加 --><!-- v1.0.9 ナビ順変更＋マイページ土台追加 --><!-- v1.1.1 マイページPID保存・コピー・クーポン導線 --><!-- v1.1.1 マイページを独立HTML化・相互リンク対応 --></html>
+<!-- v1.0.3 ジェリコ4刻印ランキング正式追加 --><!-- v1.0.4 最新情報欄追加 --><!-- v1.0.5 横スクロール先頭に最新情報リンク追加 --><!-- v1.0.6 アップデート履歴整理＋公式リンク追加 --><!-- v1.0.7 Ver.2.0判明分＋過去履歴整理 --><!-- v1.0.8 クーポン入力導線追加 --><!-- v1.0.9 ナビ順変更＋マイページ土台追加 --><!-- v1.1.1 マイページPID保存・コピー・クーポン導線 --><!-- v1.1.1 マイページを独立HTML化・相互リンク対応 --><!-- Quality Search no-JS: details + anchor links for maximum iPhone compatibility -->
+</html>
 <style>.char-tabs{display:none!important}</style>

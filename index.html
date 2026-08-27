@@ -5343,7 +5343,7 @@ section.detail[id^="char-"].ranking-open-engraving > details[id$="-engraving"]{
     history.replaceState(null, '', '#' + card.id);
 
     setTimeout(function(){
-      var y = card.getBoundingClientRect().top + window.pageYOffset;
+      var y = card.getBoundingClientRect().top + window.pageYOffset - 80;
       window.scrollTo({top:y, behavior:'auto'});
     }, 60);
   });

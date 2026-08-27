@@ -5230,7 +5230,7 @@ section.detail[id^="char-"].ranking-open-engraving > details[id$="-engraving"]{
 <option value="3">Lv3</option>
 <option value="4">Lv4</option>
 <option selected="" value="5">Lv5</option>
-</select>
+<option value="6">Lv6</option><option value="7">Lv7</option><option value="8">Lv8</option><option value="9">Lv9</option><option value="10">Lv10</option></select>
 </label>
 </div>
 <div class="quality-result-formula"><div style="font-size:10px;opacity:.55;margin-bottom:4px;">計算結果</div>
@@ -5254,7 +5254,7 @@ section.detail[id^="char-"].ranking-open-engraving > details[id$="-engraving"]{
 
   if(!q || !lv || !label || !hpEl || !defEl) return;
 
-  var mult = [1,1.03,1.07,1.12,1.18,1.25];
+  var mult = [1,1.03,1.07,1.12,1.18,1.25,1.275,1.30,1.325,1.35,1.375];
 
   function calc(){
     var quality = parseInt(q.value,10);

@@ -5343,8 +5343,9 @@ section.detail[id^="char-"].ranking-open-engraving > details[id$="-engraving"]{
     history.replaceState(null, '', '#' + card.id);
 
     setTimeout(function(){
-      card.scrollIntoView({behavior:'auto', block:'start'});
-    }, 30);
+      var y = card.getBoundingClientRect().top + window.pageYOffset - 220;
+      window.scrollTo({top:y, behavior:'auto'});
+    }, 60);
   });
 })();
 </script></body>

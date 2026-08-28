@@ -1742,6 +1742,36 @@ main{padding-top:10px!important}
   font-weight:700;
   white-space:nowrap;
 }
+</style><style id="engraving-detail-toggle-style-v1">
+/* 刻印武器・刻印装備 詳細開閉 */
+.engraving-manage-row .engraving-detail-toggle{
+  grid-column:3!important;
+  justify-self:stretch!important;
+  width:76px!important;
+  min-width:76px!important;
+  margin-top:5px!important;
+  padding:5px 4px!important;
+  border:1px solid rgba(240,198,111,.55)!important;
+  border-radius:7px!important;
+  background:rgba(240,198,111,.07)!important;
+  color:#f0c66f!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  line-height:1.2!important;
+  text-align:center!important;
+  cursor:pointer!important;
+  -webkit-tap-highlight-color:transparent!important;
+  box-sizing:border-box!important;
+}
+.engraving-manage-row .engraving-detail-toggle:active{
+  transform:translateY(1px);
+}
+.engraving-manage-item .engraving-selected-desc{
+  display:none!important;
+}
+.engraving-manage-item.is-detail-open .engraving-selected-desc{
+  display:block!important;
+}
 </style></head>
 <body>
 <header class="top"><strong>👤 ナナオリ マイページ</strong><a href="index.html">攻略DBへ戻る →</a></header><details class="mypage-backup-panel" id="mypage-backup-panel">
@@ -2772,6 +2802,44 @@ document.addEventListener('click', function(e){
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);
   else setup();
+})();
+</script><script id="engraving-detail-toggle-script-v1">
+(function(){
+  function setupEngravingDetailToggles(){
+    document.querySelectorAll('.engraving-manage-item').forEach(function(item, index){
+      if(item.querySelector('.engraving-detail-toggle')) return;
+
+      var row = item.querySelector('.engraving-manage-row');
+      var desc = item.querySelector('.engraving-selected-desc');
+      if(!row || !desc) return;
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'engraving-detail-toggle';
+      btn.textContent = '詳細を開く';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-controls', 'engraving-detail-' + index);
+
+      if(!desc.id) desc.id = 'engraving-detail-' + index;
+
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        var open = item.classList.toggle('is-detail-open');
+        btn.textContent = open ? '閉じる' : '詳細を開く';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      row.appendChild(btn);
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', setupEngravingDetailToggles);
+  }else{
+    setupEngravingDetailToggles();
+  }
 })();
 </script></body>
 <!-- My Page v1.1 プロフィールアイコン15キャラ選択・端末保存 --><!-- My Page v1.2 大型プロフィールアイコン＋タップ選択UI --><!-- My Page v1.2.1 アイコンタップ不具合修正 --><!-- My Page v1.3 JSなしでも選べるネイティブアイコン選択UI --><!-- My Page v1.4 キャラアイコン選択画面大型化 --><!-- My Page v1.5 過去記録から凸数を自動入力 --><!-- My Page v1.6 15キャラ凸数自動入力完了 --><!-- My Page v1.7 所持刻印装備チェック管理 --><!-- My Page v1.8 キャラ凸数直下に所持刻印装備を移動 --><!-- My Page v1.9 各キャラの凸数欄に刻印所持チェックを統合 --><!-- My Page v1.9.1 横幅オーバーフロー修正 --><!-- My Page v2.0 hybrid: profile/PID/quick menu + compact character management -->

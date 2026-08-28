@@ -1454,9 +1454,334 @@ main{padding-top:10px!important}
 .mypage-weapon-section.is-collapsed .mypage-weapon-collapse-body{
   display:none;
 }
+</style><style id="unowned-engraving-summary-style-v1">
+#unowned-engraving-summary{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:18px 0!important;
+  border:1px solid rgba(240,198,111,.28)!important;
+  border-radius:14px!important;
+  background:rgba(255,255,255,.025)!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  writing-mode:horizontal-tb!important;
+}
+#unowned-engraving-summary summary{
+  list-style:none!important;
+  -webkit-user-select:none;
+  user-select:none;
+}
+#unowned-engraving-summary summary::-webkit-details-marker{display:none!important}
+.unowned-engraving-summary-head{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  width:100%!important;
+  min-height:50px!important;
+  padding:13px 14px!important;
+  box-sizing:border-box!important;
+  cursor:pointer!important;
+  font-weight:900!important;
+  writing-mode:horizontal-tb!important;
+}
+.unowned-engraving-summary-head span{
+  writing-mode:horizontal-tb!important;
+}
+.unowned-engraving-summary-state::after{
+  content:"▼ 開く";
+  color:#f0c66f;
+  white-space:nowrap;
+}
+#unowned-engraving-summary[open] .unowned-engraving-summary-state::after{
+  content:"▲ 閉じる";
+}
+.unowned-engraving-body{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  border-top:1px solid rgba(240,198,111,.16)!important;
+  padding:11px 14px 14px!important;
+  box-sizing:border-box!important;
+  writing-mode:horizontal-tb!important;
+}
+.unowned-engraving-list{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:7px!important;
+  width:100%!important;
+  height:auto!important;
+  writing-mode:horizontal-tb!important;
+}
+.unowned-engraving-row{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  gap:9px!important;
+  width:100%!important;
+  min-height:34px!important;
+  height:auto!important;
+  writing-mode:horizontal-tb!important;
+}
+.unowned-engraving-icon{
+  width:32px!important;
+  height:32px!important;
+  object-fit:contain!important;
+  flex:0 0 32px!important;
+}
+.unowned-engraving-char{
+  opacity:.68!important;
+  font-size:.82em!important;
+  margin-left:auto!important;
+  white-space:nowrap!important;
+}
+.unowned-engraving-empty{
+  opacity:.65!important;
+  font-size:.9em!important;
+}
+
+/* キャラクター一覧とは別の独立セクション */
+#unowned-engraving-summary{
+  clear:both!important;
+  position:relative!important;
+  margin:20px 0!important;
+  grid-column:auto!important;
+  flex:none!important;
+}
+</style><style id="mypage-backup-style-v1">
+#mypage-backup-panel{
+  display:block!important;
+  width:auto!important;
+  max-width:none!important;
+  min-width:0!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:18px 0!important;
+  border:1px solid rgba(240,198,111,.28)!important;
+  border-radius:16px!important;
+  background:rgba(255,255,255,.025)!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  writing-mode:horizontal-tb!important;
+  grid-column:1 / -1!important;
+  flex:0 0 100%!important;
+}
+#mypage-backup-panel summary{
+  list-style:none!important;
+  -webkit-user-select:none;
+  user-select:none;
+}
+#mypage-backup-panel summary::-webkit-details-marker{display:none!important}
+.mypage-backup-summary{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:52px!important;
+  height:auto!important;
+  padding:14px 16px!important;
+  box-sizing:border-box!important;
+  cursor:pointer!important;
+  font-weight:900!important;
+  color:inherit!important;
+  writing-mode:horizontal-tb!important;
+}
+.mypage-backup-summary span{
+  writing-mode:horizontal-tb!important;
+  white-space:nowrap!important;
+}
+.mypage-backup-summary-state::after{
+  content:"▼ 開く";
+  color:#f0c66f;
+}
+#mypage-backup-panel[open] .mypage-backup-summary-state::after{content:"▲ 閉じる"}
+.mypage-backup-body{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:14px 16px 16px!important;
+  box-sizing:border-box!important;
+  border-top:1px solid rgba(240,198,111,.16)!important;
+  writing-mode:horizontal-tb!important;
+}
+.mypage-backup-body p{
+  display:block!important;
+  width:100%!important;
+  margin:0 0 12px!important;
+  font-size:.9em!important;
+  line-height:1.65!important;
+  opacity:.72!important;
+  writing-mode:horizontal-tb!important;
+}
+.mypage-backup-actions{
+  display:flex!important;
+  flex-direction:row!important;
+  flex-wrap:wrap!important;
+  align-items:stretch!important;
+  gap:10px!important;
+  width:100%!important;
+  min-width:0!important;
+  writing-mode:horizontal-tb!important;
+}
+.mypage-backup-actions button{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:1 1 220px!important;
+  width:auto!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  min-height:44px!important;
+  margin:0!important;
+  padding:10px 14px!important;
+  border-radius:10px!important;
+  border:1px solid rgba(240,198,111,.45)!important;
+  background:rgba(240,198,111,.08)!important;
+  color:inherit!important;
+  font:inherit!important;
+  font-weight:800!important;
+  line-height:1.35!important;
+  writing-mode:horizontal-tb!important;
+  white-space:normal!important;
+}
+#mypage-backup-status{
+  display:block!important;
+  width:100%!important;
+  margin-top:10px!important;
+  font-size:.84em!important;
+  line-height:1.45!important;
+  min-height:1.2em!important;
+  writing-mode:horizontal-tb!important;
+}
+@media (max-width:640px){
+  #mypage-backup-panel{margin:14px 0!important;}
+  .mypage-backup-summary{padding:13px 14px!important;}
+  .mypage-backup-body{padding:13px 14px 14px!important;}
+  .mypage-backup-actions{display:grid!important;grid-template-columns:1fr!important;}
+  .mypage-backup-actions button{width:100%!important;flex:none!important;}
+}
+</style><style id="mypage-update-history-style-v1">
+#mypage-update-history{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  box-sizing:border-box;
+  margin:6px 0 12px auto;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  overflow:visible;
+}
+#mypage-update-history summary{
+  list-style:none;
+}
+#mypage-update-history summary::-webkit-details-marker{
+  display:none;
+}
+.mypage-update-history-head{
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:7px;
+  min-height:30px;
+  padding:4px 7px;
+  box-sizing:border-box;
+  cursor:pointer;
+  font-size:.78em;
+  font-weight:700;
+  opacity:.78;
+}
+.mypage-update-history-title{
+  letter-spacing:.02em;
+}
+.mypage-update-history-state::after{
+  content:"▼";
+  color:#f0c66f;
+  white-space:nowrap;
+}
+#mypage-update-history[open] .mypage-update-history-state::after{
+  content:"▲";
+}
+.mypage-update-history-body{
+  width:min(360px,calc(100vw - 28px));
+  margin-top:4px;
+  padding:7px 10px;
+  box-sizing:border-box;
+  border:1px solid rgba(240,198,111,.18);
+  border-radius:10px;
+  background:rgba(15,15,18,.96);
+}
+.mypage-update-history-row{
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr);
+  gap:7px;
+  align-items:start;
+  padding:6px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  line-height:1.4;
+  font-size:.82em;
+}
+.mypage-update-history-row:last-child{
+  border-bottom:0;
+}
+.mypage-update-history-row time{
+  color:#f0c66f;
+  font-weight:700;
+  white-space:nowrap;
+}
 </style></head>
 <body>
-<header class="top"><strong>👤 ナナオリ マイページ</strong><a href="index.html">攻略DBへ戻る →</a></header>
+<header class="top"><strong>👤 ナナオリ マイページ</strong><a href="index.html">攻略DBへ戻る →</a></header><details class="mypage-backup-panel" id="mypage-backup-panel">
+<summary class="mypage-backup-summary">
+<span>データ管理</span>
+<span class="mypage-backup-summary-state"></span>
+</summary>
+<div class="mypage-backup-body">
+<p>機種変更などに備えて、このマイページの保存データを1つのファイルにバックアップできます。</p>
+<div class="mypage-backup-actions">
+<button id="mypage-backup-export" type="button">バックアップを保存</button>
+<button id="mypage-backup-import" type="button">バックアップから復元</button>
+<input accept=".json,application/json" hidden="" id="mypage-backup-file" type="file"/>
+</div>
+<div aria-live="polite" id="mypage-backup-status"></div>
+</div>
+</details><details class="mypage-update-history" id="mypage-update-history">
+<summary class="mypage-update-history-head">
+<span class="mypage-update-history-title">更新履歴</span>
+<span class="mypage-update-history-state"></span>
+</summary>
+<div class="mypage-update-history-body">
+<div class="mypage-update-history-row">
+<time>8/28</time>
+<span>マイページにバックアップ・復元機能を追加</span>
+</div>
+<div class="mypage-update-history-row">
+<time>8/28</time>
+<span>未所持刻印装備一覧を追加</span>
+</div>
+<div class="mypage-update-history-row">
+<time>8/28</time>
+<span>バンの刻印武器・刻印装備情報を更新</span>
+</div>
+<div class="mypage-update-history-row">
+<time>8/27</time>
+<span>バンをキャラクター一覧に追加</span>
+</div>
+</div>
+</details>
 <main>
 <input checked="" class="avatar-radio" id="avatar-char-derieri" name="profile-avatar" type="radio" value="char-derieri"/><input class="avatar-radio" id="avatar-char-gowther" name="profile-avatar" type="radio" value="char-gowther"/><input class="avatar-radio" id="avatar-char-elizabeth" name="profile-avatar" type="radio" value="char-elizabeth"/><input class="avatar-radio" id="avatar-char-merlin" name="profile-avatar" type="radio" value="char-merlin"/><input class="avatar-radio" id="avatar-char-daisy" name="profile-avatar" type="radio" value="char-daisy"/><input class="avatar-radio" id="avatar-char-meliodas" name="profile-avatar" type="radio" value="char-meliodas"/><input class="avatar-radio" id="avatar-char-diane" name="profile-avatar" type="radio" value="char-diane"/><input class="avatar-radio" id="avatar-char-drake" name="profile-avatar" type="radio" value="char-drake"/><input class="avatar-radio" id="avatar-char-elaine" name="profile-avatar" type="radio" value="char-elaine"/><input class="avatar-radio" id="avatar-char-guila" name="profile-avatar" type="radio" value="char-guila"/><input class="avatar-radio" id="avatar-char-jericho" name="profile-avatar" type="radio" value="char-jericho"/><input class="avatar-radio" id="avatar-char-king" name="profile-avatar" type="radio" value="char-king"/><input class="avatar-radio" id="avatar-char-mannie" name="profile-avatar" type="radio" value="char-mannie"/><input class="avatar-radio" id="avatar-char-escanor" name="profile-avatar" type="radio" value="char-escanor"/><input class="avatar-radio" id="avatar-char-cloto" name="profile-avatar" type="radio" value="char-cloto"/><input class="avatar-radio" id="avatar-char-ban" name="profile-avatar" type="radio" value="char-ban"/>
 <section class="profile-card">
@@ -1905,7 +2230,13 @@ main{padding-top:10px!important}
 </div>
 </div><button class="mypage-weapon-limit-close" type="button">閉じる</button></details>
 </div>
-</section>
+</section><details class="unowned-engraving-summary" id="unowned-engraving-summary">
+<summary class="unowned-engraving-summary-head">
+<span>未所持刻印装備一覧</span>
+<span class="unowned-engraving-summary-state"></span>
+</summary>
+<div class="unowned-engraving-body"><div class="unowned-engraving-list"></div></div>
+</details>
 </main>
 <script>
 (function(){
@@ -2318,6 +2649,129 @@ document.addEventListener('click', function(e){
       sync(btn, section);
     });
   });
+})();
+</script><script id="mypage-backup-script-v1">
+(function(){
+  var FORMAT='nanaori-mypage-backup', VERSION=1;
+  function status(m){var e=document.getElementById('mypage-backup-status');if(e)e.textContent=m||'';}
+
+  function exportBackup(){
+    try{
+      var data={};
+      for(var i=0;i<localStorage.length;i++){
+        var k=localStorage.key(i);
+        data[k]=localStorage.getItem(k);
+      }
+      var payload={format:FORMAT,version:VERSION,savedAt:new Date().toISOString(),origin:location.origin,data:data};
+      var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      var d=new Date(), pad=function(n){return String(n).padStart(2,'0');};
+      a.href=url;
+      a.download='ナナオリ_マイページバックアップ_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'_'+pad(d.getHours())+pad(d.getMinutes())+'.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function(){URL.revokeObjectURL(url);},1500);
+      status('バックアップを保存しました。');
+    }catch(e){
+      status('バックアップの保存に失敗しました。');
+    }
+  }
+
+  function importBackup(file){
+    if(!file)return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var p=JSON.parse(r.result);
+        if(!p || p.format!==FORMAT || !p.data || typeof p.data!=='object') throw new Error('invalid');
+        if(!confirm('現在のマイページ保存データをバックアップ内容で復元します。よろしいですか？')) return;
+        Object.keys(p.data).forEach(function(k){
+          var v=p.data[k];
+          if(v===null || typeof v==='undefined') localStorage.removeItem(k);
+          else localStorage.setItem(k,String(v));
+        });
+        status('復元しました。ページを再読み込みします…');
+        setTimeout(function(){location.reload();},500);
+      }catch(e){
+        status('このファイルはナナオリのバックアップとして読み込めませんでした。');
+      }
+      var inp=document.getElementById('mypage-backup-file');
+      if(inp) inp.value='';
+    };
+    r.onerror=function(){status('ファイルを読み込めませんでした。');};
+    r.readAsText(file);
+  }
+
+  function setup(){
+    var ex=document.getElementById('mypage-backup-export');
+    var im=document.getElementById('mypage-backup-import');
+    var f=document.getElementById('mypage-backup-file');
+    if(!ex || !im || !f) return;
+    ex.addEventListener('click',exportBackup);
+    im.addEventListener('click',function(){f.click();});
+    f.addEventListener('change',function(){if(f.files&&f.files[0])importBackup(f.files[0]);});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setup);
+  else setup();
+})();
+</script><script id="unowned-engraving-summary-script-v2">
+(function(){
+  function cname(card){
+    var e=card.querySelector('.roster-summary .roster-name,.drawer-head .char-name,.drawer-head h3,.roster-summary strong');
+    return e?e.textContent.trim():(card.id||'').replace(/^my-char-/,'');
+  }
+  function rebuild(){
+    var box=document.querySelector('#unowned-engraving-summary .unowned-engraving-list');
+    if(!box)return;
+    box.innerHTML='';
+    var n=0;
+    document.querySelectorAll('[id^="my-char-"]').forEach(function(card){
+      card.querySelectorAll('.engraving-manage-item').forEach(function(item){
+        var c=item.querySelector('.engraving-owned-check');
+        var ne=item.querySelector('.engraving-name');
+        if(!c||c.checked||!ne)return;
+        var r=document.createElement('div');
+        r.className='unowned-engraving-row';
+        var si=item.querySelector('.engraving-mini-icon');
+        if(si&&si.src){
+          var im=document.createElement('img');
+          im.className='unowned-engraving-icon';
+          im.src=si.src;
+          im.alt='';
+          r.appendChild(im);
+        }
+        var nm=document.createElement('span');
+        nm.textContent=ne.textContent.trim();
+        r.appendChild(nm);
+        var ch=document.createElement('span');
+        ch.className='unowned-engraving-char';
+        ch.textContent=cname(card);
+        r.appendChild(ch);
+        box.appendChild(r);
+        n++;
+      });
+    });
+    if(!n){
+      var e=document.createElement('div');
+      e.className='unowned-engraving-empty';
+      e.textContent='未所持の刻印装備はありません。';
+      box.appendChild(e);
+    }
+  }
+  function setup(){
+    var d=document.getElementById('unowned-engraving-summary');
+    if(!d)return;
+    d.addEventListener('toggle',function(){if(d.open)rebuild();});
+    document.querySelectorAll('.engraving-owned-check').forEach(function(c){
+      c.addEventListener('change',rebuild);
+    });
+    setTimeout(rebuild,0);
+    setTimeout(rebuild,300);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);
+  else setup();
 })();
 </script></body>
 <!-- My Page v1.1 プロフィールアイコン15キャラ選択・端末保存 --><!-- My Page v1.2 大型プロフィールアイコン＋タップ選択UI --><!-- My Page v1.2.1 アイコンタップ不具合修正 --><!-- My Page v1.3 JSなしでも選べるネイティブアイコン選択UI --><!-- My Page v1.4 キャラアイコン選択画面大型化 --><!-- My Page v1.5 過去記録から凸数を自動入力 --><!-- My Page v1.6 15キャラ凸数自動入力完了 --><!-- My Page v1.7 所持刻印装備チェック管理 --><!-- My Page v1.8 キャラ凸数直下に所持刻印装備を移動 --><!-- My Page v1.9 各キャラの凸数欄に刻印所持チェックを統合 --><!-- My Page v1.9.1 横幅オーバーフロー修正 --><!-- My Page v2.0 hybrid: profile/PID/quick menu + compact character management -->
